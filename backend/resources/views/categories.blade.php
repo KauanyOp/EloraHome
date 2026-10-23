@@ -6,128 +6,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elora | Categorias</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
 
-        body {
-            margin: 0;
-            font-family: Poppins, sans-serif;
-            background-color: #E6DFD6;
-            color: #292323;
-        }
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-        header {
-            background-color: #344E41;
-            color: white;
-            padding: 20px 40px;
-        }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #E6DFD6;
+        color: #292323;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 26px;
-        }
+    header h1, header p {
+        margin: 5px 0;
+    }
 
-        header p {
-            margin-bottom: 0;
-        }
+    main {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
 
-        main {
-            max-width: 1000px;
-            margin: 35px auto;
-            padding: 0 20px;
-        }
+    section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+    }
 
-        section {
-            background-color: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-        }
+    h2 {
+        color: #344E41;
+    }
 
-        h2 {
-            margin-top: 0;
-            color: #344E41;
-        }
+    label {
+        display: block;
+        margin: 12px 0 5px;
+    }
 
-        label {
-            display: block;
-            margin: 15px 0 6px;
-        }
+    input:not([type="checkbox"]), textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #d5cccc;
-            border-radius: 5px;
-            font: inherit;
-        }
+    button {
+        margin: 8px 4px 0 0;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background: #344E41;
+        color: white;
+        cursor: pointer;
+    }
 
-        button {
-            margin: 5px 4px 5px 0;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 5px;
-            background-color: #344E41;
-            color: white;
-            cursor: pointer;
-        }
+    .btn-cancelar {
+        background: #777;
+    }
 
-        button:hover {
-            opacity: 0.85;
-        }
+    .btn-excluir {
+        background: #963D3D;
+    }
 
-        .btn-cancelar {
-            background-color: #777;
-        }
+    .tabela-container {
+        overflow-x: auto;
+    }
 
-        .btn-excluir {
-            background-color: #963D3D;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
 
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #eee5e5;
-            text-align: left;
-        }
+    th {
+        background: #F4F1ED;
+    }
 
-        th {
-            background-color: #f4eeee;
-        }
+    .sucesso {
+        color: green;
+    }
 
-        #mensagem {
-            margin-bottom: 15px;
-        }
+    .erro {
+        color: #B42318;
+    }
 
-        .sucesso {
-            color: #267044;
-        }
+    .status {
+        font-weight: bold;
+    }
+</style>
 
-        .erro {
-            color: #b42318;
-        }
-
-        .status {
-            font-weight: bold;
-        }
-
-        .tabela-container {
-            overflow-x: auto;
-        }
-    </style>
 </head>
 
 <body>
-    <header>
-        <h1>Elora</h1>
-        <p>Painel administrativo</p>
-    </header>
 
     <main>
         <section>
