@@ -1,0 +1,24 @@
+<h1>Produtos</h1>
+
+<div>
+
+  @for(produto of produtos; track produto.id){
+
+    <div>
+
+      <img
+        src="https://placehold.co/250x250"
+        alt="produto"
+      >
+
+      <h3>{{ produto.nome }}</h3>
+
+      <p>R$ {{ produto.preco }}</p>
+
+      <button>Ver produto</button>
+
+    </div>
+
+  }
+
+</div>
