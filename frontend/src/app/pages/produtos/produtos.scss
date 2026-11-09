@@ -1,0 +1,133 @@
+
+:host {
+  display: block;
+  background-color: #FFF9F3;
+  color: #344E41;
+}
+
+.pagina-produtos {
+  padding: 55px 8%;
+  min-height: 70vh;
+}
+
+/* TÍTULO */
+.titulo-pagina {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.titulo-pagina h1 {
+  color: #344E41;
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.titulo-pagina p {
+  color: #866345;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* FILTROS */
+.filtros {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 45px;
+}
+
+.filtros button {
+  background-color: transparent;
+  border: 1px solid #A3B18A;
+  color: #344E41;
+  padding: 10px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filtros button:hover,
+.filtros button:first-child {
+  background-color: #344E41;
+  color: #FFF9F3;
+}
+
+/* LISTA DE PRODUTOS */
+.lista-produtos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px 22px;
+}
+
+.card-produto {
+  background-color: #FFF9F3;
+  min-width: 0;
+}
+
+.card-produto img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background-color: #E6DFD6;
+  transition: transform 0.3s;
+}
+
+.card-produto img:hover {
+  transform: scale(1.02);
+}
+
+.informacoes-produto {
+  padding: 15px 5px;
+}
+
+.informacoes-produto h3 {
+  color: #344E41;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.informacoes-produto p {
+  color: #5D3E28;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+
+.informacoes-produto a {
+  display: inline-block;
+  color: #6C8066;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid #A3B18A;
+  padding-bottom: 3px;
+}
+
+.informacoes-produto a:hover {
+  color: #344E41;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+  .lista-produtos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 550px) {
+  .pagina-produtos {
+    padding: 35px 5%;
+  }
+
+  .titulo-pagina h1 {
+    font-size: 27px;
+  }
+
+  .lista-produtos {
+    grid-template-columns: 1fr;
+  }
+}

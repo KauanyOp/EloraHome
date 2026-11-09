@@ -1,30 +1,131 @@
-<h1>Elora Home</h1>
-
-<section>
-  <h2>Transforme sua casa em um lar</h2>
-
-  <p>
-    Produtos exclusivos para decoração,
-    organização e conforto.
-  </p>
-
-  <button>Explorar coleção</button>
+<section class="banner-principal">
+  <div class="banner-conteudo">
+    <span>ELORA HOME</span>
+    <h1>Transforme sua casa em um lar</h1>
+    <p>
+      Descubra produtos que unem conforto,
+      beleza e praticidade para o seu dia a dia.
+    </p>
+    <a routerLink="/produtos">Explorar coleção</a>
+  </div>
 </section>
 
-<section>
-  <h2>Categorias</h2>
+<!-- CATEGORIAS -->
+<section class="categorias">
+  <div class="titulo-secao">
+    <h2>Explore nossas categorias</h2>
+    <p>Encontre tudo para transformar seus ambientes.</p>
+  </div>
 
-  <div>Cama</div>
-  <div>Organização</div>
-  <div>Decoração</div>
-  <div>Cômodos</div>
+  <div class="lista-categorias">
+    <a routerLink="/produtos" class="categoria-card">
+      <div class="categoria-imagem">Imagem de cama</div>
+      <h3>Jogos de cama</h3>
+    </a>
+
+    <a routerLink="/produtos" class="categoria-card">
+      <div class="categoria-imagem">Imagem de organização</div>
+      <h3>Organização</h3>
+    </a>
+
+    <a routerLink="/produtos" class="categoria-card">
+      <div class="categoria-imagem">Imagem de decoração</div>
+      <h3>Decoração</h3>
+    </a>
+
+    <a routerLink="/produtos" class="categoria-card">
+      <div class="categoria-imagem">Imagem de ambientes</div>
+      <h3>Cômodos</h3>
+    </a>
+  </div>
 </section>
 
-<section>
-  <h2>Mais vendidos</h2>
+<!-- MAIS VENDIDOS -->
+<section class="mais-vendidos">
+  <div class="titulo-secao">
+    <h2>Mais vendidos</h2>
+    <p>Os queridinhos da Elora Home.</p>
+  </div>
 
-  <div>Produto 1</div>
-  <div>Produto 2</div>
-  <div>Produto 3</div>
-  <div>Produto 4</div>
+  <div class="lista-produtos">
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Kit de cama confortável</h3>
+      <p>R$ 189,90</p>
+      <a routerLink="/produto/1">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Organizador decorativo</h3>
+      <p>R$ 79,90</p>
+      <a routerLink="/produto/2">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Vaso decorativo</h3>
+      <p>R$ 59,90</p>
+      <a routerLink="/produto/3">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Manta para sofá</h3>
+      <p>R$ 99,90</p>
+      <a routerLink="/produto/4">Ver produto</a>
+    </article>
+
+  </div>
+</section>
+
+<!-- BANNER PROMOCIONAL -->
+<section class="banner-promocional">
+  <div>
+    <span>ELORA HOME</span>
+    <h2>Pequenos detalhes, grandes transformações.</h2>
+    <p>Encontre peças especiais para deixar sua casa ainda mais bonita.</p>
+    <a routerLink="/produtos">Conheça nossos produtos</a>
+  </div>
+</section>
+
+<!-- NOVIDADES -->
+<section class="novidades">
+  <div class="titulo-secao">
+    <h2>Novidades</h2>
+    <p>Confira as últimas novidades da nossa loja.</p>
+  </div>
+
+  <div class="lista-produtos">
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Produto novo 1</h3>
+      <p>R$ 129,90</p>
+      <a routerLink="/produto/5">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Produto novo 2</h3>
+      <p>R$ 89,90</p>
+      <a routerLink="/produto/6">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Produto novo 3</h3>
+      <p>R$ 149,90</p>
+      <a routerLink="/produto/7">Ver produto</a>
+    </article>
+
+    <article class="produto-card">
+      <div class="produto-imagem">Imagem do produto</div>
+      <h3>Produto novo 4</h3>
+      <p>R$ 69,90</p>
+      <a routerLink="/produto/8">Ver produto</a>
+    </article>
+
+  </div>
 </section>

@@ -1,0 +1,167 @@
+:host {
+  display: block;
+  color: #FFF9F3;
+  background-color: #FFF9F3;
+  font-family: Arial, sans-serif;
+}
+
+.pagina-home {
+  width: 100%;
+}
+
+/* BANNER PRINCIPAL */
+.banner-principal {
+  min-height: 550px;
+  background-image: url('/img/Banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 70px 10%;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+.banner-principal h1 {
+  color: #FFF9F3;
+  font-size: 46px;
+  max-width: 550px;
+  margin: 0;
+}
+
+.banner-principal p {
+  color: #FFF9F3;
+  font-size: 18px;
+  max-width: 450px;
+  line-height: 1.6;
+}
+
+.banner-principal button {
+  background-color: #344E41;
+  color: #FFF9F3;
+  border: none;
+  padding: 14px 30px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* CATEGORIAS */
+.categorias {
+  padding: 65px 8%;
+  text-align: center;
+}
+
+.categorias h2,
+.mais-vendidos h2,
+.novidades h2 {
+  color: #344E41;
+  font-size: 30px;
+  margin-bottom: 35px;
+}
+
+.lista-categorias {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.categoria {
+  background-color: #D1D5BF;
+  padding: 55px 15px;
+  color: #344E41;
+  font-size: 18px;
+}
+
+/* PRODUTOS */
+.mais-vendidos,
+.novidades {
+  padding: 60px 8%;
+  text-align: center;
+}
+
+.lista-produtos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.card-produto {
+  text-align: left;
+  background-color: #FFF9F3;
+}
+
+.card-produto img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background-color: #E6DFD6;
+}
+
+.card-produto h3 {
+  color: #344E41;
+  font-size: 17px;
+  margin: 14px 0 8px;
+}
+
+.card-produto p {
+  color: #5D3E28;
+  font-size: 16px;
+  margin: 0;
+}
+
+.card-produto a {
+  color: #6C8066;
+  text-decoration: none;
+}
+
+/* BANNER PROMOCIONAL */
+.banner-promocional {
+  background-color: #A3B18A;
+  color: #344E41;
+  padding: 65px 10%;
+  text-align: center;
+}
+
+.banner-promocional h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.banner-promocional p {
+  font-size: 17px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .banner-principal {
+    min-height: 350px;
+    padding: 45px 7%;
+  }
+
+  .banner-principal h1 {
+    font-size: 32px;
+  }
+
+  .lista-categorias,
+  .lista-produtos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categorias,
+  .mais-vendidos,
+  .novidades {
+    padding: 40px 6%;
+  }
+}
+
+@media (max-width: 480px) {
+  .lista-categorias,
+  .lista-produtos {
+    grid-template-columns: 1fr;
+  }
+}

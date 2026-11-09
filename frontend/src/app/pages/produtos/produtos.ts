@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-produtos',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './produtos.html',
   styleUrl: './produtos.scss'
 })

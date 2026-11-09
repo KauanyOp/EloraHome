@@ -1,24 +1,42 @@
-<h1>Produtos</h1>
+<section class="pagina-produtos">
 
-<div>
+  <div class="titulo-pagina">
+    <h1>Nossos produtos</h1>
+    <p>Encontre os detalhes que deixam sua casa ainda mais especial.</p>
+  </div>
 
-  @for(produto of produtos; track produto.id){
+  <div class="filtros">
+    <button>Todos</button>
+    <button>Cama</button>
+    <button>Organização</button>
+    <button>Decoração</button>
+    <button>Cozinha</button>
+  </div>
 
-    <div>
+  <div class="lista-produtos">
 
-      <img
-        src="https://placehold.co/250x250"
-        alt="produto"
-      >
+    @for (produto of produtos; track produto.id) {
+      <div class="card-produto">
 
-      <h3>{{ produto.nome }}</h3>
+        <a [routerLink]="['/produto', produto.id]">
+          <img
+            src="https://placehold.co/300x300"
+            [alt]="produto.nome"
+          >
+        </a>
 
-      <p>R$ {{ produto.preco }}</p>
+        <div class="informacoes-produto">
+          <h3>{{ produto.nome }}</h3>
+          <p>R$ {{ produto.preco }},00</p>
 
-      <button>Ver produto</button>
+          <a [routerLink]="['/produto', produto.id]">
+            Ver produto
+          </a>
+        </div>
 
-    </div>
+      </div>
+    }
 
-  }
+  </div>
 
-</div>
+</section>

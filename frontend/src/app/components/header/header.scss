@@ -1,0 +1,74 @@
+
+.cabecalho {
+  width: 100%;
+  min-height: 85px;
+  padding: 0 7%;
+  background-color: #FFF9F3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #E6DFD6;
+}
+
+.logo {
+  color: #344E41;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.menu a {
+  color: #5D3E28;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.menu a:hover {
+  color: #6C8066;
+}
+
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.acoes button {
+  background: transparent;
+  border: 1px solid #A3B18A;
+  color: #344E41;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.acoes button:hover {
+  background-color: #344E41;
+  color: #FFF9F3;
+}
+
+@media (max-width: 850px) {
+  .cabecalho {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 5%;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+  }
+}
