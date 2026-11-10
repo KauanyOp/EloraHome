@@ -1,31 +1,52 @@
-<h1>Meu Carrinho</h1>
+@if (embutido() && carrinho.aberto()) {
+  <div class="carrinho-camada">
+    <button class="carrinho-fundo" type="button" aria-label="Fechar carrinho" (click)="fechar()"></button>
 
-<div>
+    <aside class="carrinho-painel" role="dialog" aria-modal="true" aria-labelledby="carrinho-titulo">
+      <header class="carrinho-cabecalho">
+        <h2 id="carrinho-titulo">Meu carrinho</h2>
+        <button class="fechar-carrinho" type="button" aria-label="Fechar carrinho" (click)="fechar()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </header>
 
-  <h3>Jogo de Cama</h3>
+      @if (carrinho.itens().length) {
+        <div class="carrinho-lista">
+          @for (item of carrinho.itens(); track item.id) {
+            <article class="carrinho-item">
+              <img [src]="item.imagem" [alt]="item.nome" loading="lazy">
+              <div class="item-detalhes">
+                <h3>{{ item.nome }}</h3>
+                <p>{{ formatarPreco(item.preco) }}</p>
+                <div class="item-controles">
+                  <div class="quantidade-controle" [attr.aria-label]="'Quantidade: ' + item.quantidade">
+                    <button type="button" [attr.aria-label]="'Diminuir quantidade de ' + item.nome" (click)="carrinho.atualizarQuantidade(item.id, item.quantidade - 1)">−</button>
+                    <span>{{ item.quantidade }}</span>
+                    <button type="button" [attr.aria-label]="'Aumentar quantidade de ' + item.nome" (click)="carrinho.atualizarQuantidade(item.id, item.quantidade + 1)">+</button>
+                  </div>
+                  <button class="remover-item" type="button" (click)="carrinho.remover(item.id)">Remover</button>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
 
-  <p>R$ 279,00</p>
-
-</div>
-
-<div>
-
-  <h3>Kit Talheres</h3>
-
-  <p>R$ 89,00</p>
-
-</div>
-
-<div>
-
-  <h3>Vela Aromática</h3>
-
-  <p>R$ 49,00</p>
-
-</div>
-
-<h2>Total: R$ 417,00</h2>
-
-<button>
-  Finalizar Compra
-</button>
+        <footer class="carrinho-resumo">
+          <div class="total-carrinho">
+            <span>Total</span>
+            <strong>{{ formatarPreco(carrinho.total()) }}</strong>
+          </div>
+          <a class="finalizar-compra" routerLink="/checkout" (click)="fechar()">Finalizar compra</a>
+          <button class="continuar-comprando" type="button" (click)="fechar()">Continuar comprando</button>
+        </footer>
+      } @else {
+        <div class="carrinho-vazio">
+          <p>Seu carrinho está vazio.</p>
+          <a routerLink="/produtos" (click)="fechar()">Explorar produtos</a>
+        </div>
+      }
+    </aside>
+  </div>
+}

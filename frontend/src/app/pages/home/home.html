@@ -1,131 +1,124 @@
 <section class="banner-principal">
   <div class="banner-conteudo">
-    <span>ELORA HOME</span>
+    <p class="assinatura-banner">ELORA HOME <span>CASA &amp; DECORAÇÃO</span></p>
     <h1>Transforme sua casa em um lar</h1>
-    <p>
-      Descubra produtos que unem conforto,
-      beleza e praticidade para o seu dia a dia.
-    </p>
+    <p>Peças escolhidas para deixar seus momentos cotidianos ainda mais especiais.</p>
     <a routerLink="/produtos">Explorar coleção</a>
   </div>
 </section>
 
 <!-- CATEGORIAS -->
 <section class="categorias">
-  <div class="titulo-secao">
-    <h2>Explore nossas categorias</h2>
-    <p>Encontre tudo para transformar seus ambientes.</p>
-  </div>
-
   <div class="lista-categorias">
-    <a routerLink="/produtos" class="categoria-card">
-      <div class="categoria-imagem">Imagem de cama</div>
-      <h3>Jogos de cama</h3>
+    <a routerLink="/produtos" class="categoria-card categoria-destaque">
+      <img
+        src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=85"
+        alt="Cama com roupa branca e almofadas decorativas"
+        loading="lazy"
+        decoding="async"
+      >
+      <div class="categoria-conteudo">
+        <h2>Jogos de cama</h2>
+        <span>Ver produtos
+          <svg viewBox="0 0 28 16" aria-hidden="true">
+            <path d="M1 8h24M18 1l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
     </a>
 
-    <a routerLink="/produtos" class="categoria-card">
-      <div class="categoria-imagem">Imagem de organização</div>
-      <h3>Organização</h3>
+    <a routerLink="/produtos" class="categoria-card categoria-lateral" aria-label="Ver produtos para quartos">
+      <img
+        src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+        alt="Quarto decorado com cama e poltrona"
+        loading="lazy"
+        decoding="async"
+      >
     </a>
 
-    <a routerLink="/produtos" class="categoria-card">
-      <div class="categoria-imagem">Imagem de decoração</div>
-      <h3>Decoração</h3>
-    </a>
-
-    <a routerLink="/produtos" class="categoria-card">
-      <div class="categoria-imagem">Imagem de ambientes</div>
-      <h3>Cômodos</h3>
+    <a routerLink="/produtos" class="categoria-card categoria-lateral" aria-label="Ver velas e decoração">
+      <img
+        src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+        alt="Vela acesa em um ambiente aconchegante"
+        loading="lazy"
+        decoding="async"
+      >
     </a>
   </div>
 </section>
 
-<!-- MAIS VENDIDOS -->
-<section class="mais-vendidos">
-  <div class="titulo-secao">
-    <h2>Mais vendidos</h2>
-    <p>Os queridinhos da Elora Home.</p>
-  </div>
-
-  <div class="lista-produtos">
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Kit de cama confortável</h3>
-      <p>R$ 189,90</p>
-      <a routerLink="/produto/1">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Organizador decorativo</h3>
-      <p>R$ 79,90</p>
-      <a routerLink="/produto/2">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Vaso decorativo</h3>
-      <p>R$ 59,90</p>
-      <a routerLink="/produto/3">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Manta para sofá</h3>
-      <p>R$ 99,90</p>
-      <a routerLink="/produto/4">Ver produto</a>
-    </article>
-
+<section class="faixa-editorial faixa-ambientes">
+  <img
+    src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&amp;fit=crop&amp;w=1800&amp;q=85"
+    alt="Sala de estar decorada com peças naturais"
+    loading="lazy"
+    decoding="async"
+  >
+  <div class="faixa-conteudo">
+    <p>AMBIENTES ELORA</p>
+    <h2>Novos ambientes,<br>novas histórias.</h2>
+    <a routerLink="/produtos">Descubra a coleção</a>
   </div>
 </section>
 
-<!-- BANNER PROMOCIONAL -->
-<section class="banner-promocional">
-  <div>
-    <span>ELORA HOME</span>
-    <h2>Pequenos detalhes, grandes transformações.</h2>
-    <p>Encontre peças especiais para deixar sua casa ainda mais bonita.</p>
-    <a routerLink="/produtos">Conheça nossos produtos</a>
+<section class="vitrine-home">
+  <header class="vitrine-cabecalho">
+    <div>
+      <p>ESCOLHAS DA CASA</p>
+      <h2>Mais vendidos</h2>
+    </div>
+    <a routerLink="/produtos">Ver todos os produtos</a>
+  </header>
+</section>
+
+<div class="vitrine-produtos">
+  @for (produto of destaques; track produto.id) {
+    <article class="produto-home">
+      <a class="produto-home-imagem" [routerLink]="['/produto', produto.id]">
+        <img [src]="produto.imagem" [alt]="produto.alt" loading="lazy" decoding="async">
+      </a>
+      <div class="produto-home-info">
+        <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
+        <p>{{ formatarPreco(produto.preco) }}</p>
+      </div>
+    </article>
+  }
+</div>
+
+<section class="faixa-editorial faixa-conforto">
+  <img
+    src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&amp;fit=crop&amp;w=1800&amp;q=85"
+    alt="Quarto preparado com tecidos macios e luz natural"
+    loading="lazy"
+    decoding="async"
+  >
+  <div class="faixa-conteudo">
+    <p>O SEU TEMPO, O SEU ESPAÇO</p>
+    <h2>Conforto em cada detalhe.</h2>
+    <a routerLink="/produtos">Encontre o seu</a>
   </div>
 </section>
 
-<!-- NOVIDADES -->
-<section class="novidades">
-  <div class="titulo-secao">
-    <h2>Novidades</h2>
-    <p>Confira as últimas novidades da nossa loja.</p>
-  </div>
+<section class="vitrine-home vitrine-novidades">
+  <header class="vitrine-cabecalho">
+    <div>
+      <p>ACABARAM DE CHEGAR</p>
+      <h2>Novidades</h2>
+    </div>
+    <a routerLink="/produtos">Ver toda a coleção</a>
+  </header>
 
-  <div class="lista-produtos">
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Produto novo 1</h3>
-      <p>R$ 129,90</p>
-      <a routerLink="/produto/5">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Produto novo 2</h3>
-      <p>R$ 89,90</p>
-      <a routerLink="/produto/6">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Produto novo 3</h3>
-      <p>R$ 149,90</p>
-      <a routerLink="/produto/7">Ver produto</a>
-    </article>
-
-    <article class="produto-card">
-      <div class="produto-imagem">Imagem do produto</div>
-      <h3>Produto novo 4</h3>
-      <p>R$ 69,90</p>
-      <a routerLink="/produto/8">Ver produto</a>
-    </article>
-
+  <div class="vitrine-produtos">
+    @for (produto of novidades; track produto.id) {
+      <article class="produto-home">
+        <a class="produto-home-imagem" [routerLink]="['/produto', produto.id]">
+          <img [src]="produto.imagem" [alt]="produto.alt" loading="lazy" decoding="async">
+        </a>
+        <div class="produto-home-info">
+          <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
+          <p>{{ formatarPreco(produto.preco) }}</p>
+        </div>
+      </article>
+    }
   </div>
 </section>

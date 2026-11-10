@@ -13,14 +13,17 @@
 
     <p>{{ produto.descricao }}</p>
 
-    <label>Quantidade</label>
+    <label for="quantidade-produto">Quantidade</label>
 
     <input
+      id="quantidade-produto"
       type="number"
-      value="1"
+      min="1"
+      [value]="quantidade()"
+      (input)="atualizarQuantidade($event)"
     >
 
-    <button>
+    <button type="button" (click)="adicionarAoCarrinho()">
       Adicionar ao carrinho
     </button>
 

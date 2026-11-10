@@ -1,42 +1,53 @@
+<section class="produtos-banner">
+  <div class="produtos-banner-conteudo">
+    <p>ELORA HOME · CASA &amp; DECORAÇÃO</p>
+    <h1>Peças para viver bem.</h1>
+  </div>
+</section>
+
 <section class="pagina-produtos">
+  <header class="cabecalho-produtos">
+    <div>
+      <p>CURADORIA ELORA</p>
+      <h2>Nossos produtos</h2>
+    </div>
+    <span>{{ produtosFiltrados.length }} produtos</span>
+  </header>
 
-  <div class="titulo-pagina">
-    <h1>Nossos produtos</h1>
-    <p>Encontre os detalhes que deixam sua casa ainda mais especial.</p>
-  </div>
+  <nav class="filtros" aria-label="Filtrar produtos">
+    @for (filtro of filtros; track filtro.valor) {
+      <button
+        type="button"
+        [class.ativo]="filtroAtivo() === filtro.valor"
+        [attr.aria-pressed]="filtroAtivo() === filtro.valor"
+        (click)="selecionarFiltro(filtro)"
+      >
+        {{ filtro.label }}
+      </button>
+    }
+  </nav>
 
-  <div class="filtros">
-    <button>Todos</button>
-    <button>Cama</button>
-    <button>Organização</button>
-    <button>Decoração</button>
-    <button>Cozinha</button>
-  </div>
-
-  <div class="lista-produtos">
-
-    @for (produto of produtos; track produto.id) {
-      <div class="card-produto">
-
-        <a [routerLink]="['/produto', produto.id]">
-          <img
-            src="https://placehold.co/300x300"
-            [alt]="produto.nome"
-          >
+  <div class="grade-produtos">
+    @for (produto of produtosFiltrados; track produto.id) {
+      <article class="card-produto">
+        <a class="imagem-produto" [routerLink]="['/produto', produto.id]">
+          <img [src]="produto.imagem" [alt]="produto.alt" loading="lazy" decoding="async">
+          @if (produto.novo) {
+            <span class="etiqueta-novo">Novo</span>
+          }
         </a>
 
         <div class="informacoes-produto">
-          <h3>{{ produto.nome }}</h3>
-          <p>R$ {{ produto.preco }},00</p>
-
-          <a [routerLink]="['/produto', produto.id]">
-            Ver produto
-          </a>
+          <p class="categoria-produto">{{ produto.categoria }}</p>
+          <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
+          <p class="preco-produto">{{ formatarPreco(produto.preco) }}</p>
+          <button type="button" class="adicionar-produto" (click)="adicionarAoCarrinho(produto)">
+            Adicionar ao carrinho
+          </button>
         </div>
-
-      </div>
+      </article>
+    } @empty {
+      <p class="sem-produtos">Não encontramos produtos neste filtro.</p>
     }
-
   </div>
-
 </section>

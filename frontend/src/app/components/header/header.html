@@ -1,17 +1,45 @@
 <header class="cabecalho">
 
-  <a href="/" class="logo">ELORA HOME</a>
+  <a routerLink="/" aria-label="Elora Home - início">
+    <img src="/img/logo-verde-escuro.svg" class="logo" alt="">
+  </a>
 
   <nav class="menu">
-    <a href="#">Kits</a>
-    <a href="#">Organização</a>
-    <a href="#">Decoração</a>
-    <a href="#">Cômodos</a>
+    <a routerLink="/produtos" [queryParams]="{ categoria: 'kits' }">Kits</a>
+    <a routerLink="/produtos" [queryParams]="{ categoria: 'organizacao' }">Organização</a>
+    <a routerLink="/produtos" [queryParams]="{ categoria: 'decoracao' }">Decoração</a>
+    <label class="menu-select">
+      <select aria-label="Selecionar cômodo" (change)="selecionarComodo($event)">
+        <option value="" selected>Cômodos</option>
+        <option value="sala">Sala</option>
+        <option value="quarto">Quarto</option>
+        <option value="cozinha">Cozinha</option>
+        <option value="banheiro">Banheiro</option>
+      </select>
+      <svg viewBox="0 0 12 8" aria-hidden="true">
+        <path d="m1 1 5 5 5-5" />
+      </svg>
+    </label>
   </nav>
 
-  <div class="acoes">
-    <button>Buscar</button>
-    <button>Carrinho</button>
-    <button>Perfil</button>
+  <div class="icons">
+    <button class="icon-button" type="button" aria-label="Buscar" title="Buscar">
+      <img src="/icons/search.svg" alt="">
+    </button>
+    <button
+      class="icon-button cart-button"
+      type="button"
+      aria-label="Abrir carrinho"
+      title="Carrinho"
+      (click)="carrinho.abrir()"
+    >
+      <img src="/icons/handbag.svg" alt="">
+      @if (carrinho.quantidade() > 0) {
+        <span class="cart-count">{{ carrinho.quantidade() }}</span>
+      }
+    </button>
+    <a class="icon-button" routerLink="/login" aria-label="Entrar" title="Entrar">
+      <img src="/icons/user.svg" alt="">
+    </a>
   </div>
 </header>
