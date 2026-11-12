@@ -1,21 +1,29 @@
 <div class="admin-container">
-
   <aside class="sidebar">
+    <a class="admin-identidade" routerLink="/admin/dashboard">
+      <span class="marca-admin">E</span>
+      <span><strong>ELORA HOME</strong><small>Área administrativa</small></span>
+    </a>
 
-    <h2>ELORA HOME</h2>
-    <p>Área administrativa</p>
-
-    <nav>
-      <a routerLink="/admin/dashboard">Dashboard</a>
-      <a routerLink="/admin/produtos">Produtos</a>
-      <a routerLink="/admin/pedidos">Pedidos</a>
-      <a routerLink="/admin/usuarios">Usuários</a>
+    <nav class="admin-nav" aria-label="Navegação administrativa">
+      <a routerLink="/admin/dashboard" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }">
+        <img src="/icons/chart.svg" alt="">Dashboard
+      </a>
+      <a routerLink="/admin/produtos" routerLinkActive="ativo">
+        <img src="/icons/package.svg" alt="">Produtos
+      </a>
+      <a routerLink="/admin/pedidos" routerLinkActive="ativo">
+        <img src="/icons/shopping-cart.svg" alt="">Pedidos
+      </a>
+      <a routerLink="/admin/usuarios" routerLinkActive="ativo">
+        <img src="/icons/users.svg" alt="">Usuários
+      </a>
     </nav>
 
+    <a class="voltar-loja" routerLink="/">← Voltar à loja</a>
   </aside>
 
   <main class="admin-content">
     <router-outlet></router-outlet>
   </main>
-
 </div>

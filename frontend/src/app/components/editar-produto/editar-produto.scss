@@ -1,0 +1,134 @@
+.modal-camada {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  padding: 18px;
+  place-items: center;
+}
+
+.modal-fundo {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(25 34 29 / 46%);
+}
+
+.modal-produto {
+  position: relative;
+  width: min(100%, 430px);
+  padding: 22px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 15px 40px rgb(0 0 0 / 18%);
+  box-sizing: border-box;
+}
+
+.modal-produto > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-produto header p {
+  margin: 0 0 5px;
+  color: #788477;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.modal-produto header h2 {
+  margin: 0;
+  color: #344e41;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.fechar-modal {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #788477;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-produto form,
+.modal-produto label {
+  display: grid;
+}
+
+.modal-produto form {
+  gap: 13px;
+}
+
+.modal-produto label {
+  gap: 6px;
+}
+
+.modal-produto label span {
+  color: #5e665d;
+  font-size: 9px;
+}
+
+.modal-produto input,
+.modal-produto select {
+  width: 100%;
+  min-height: 35px;
+  padding: 0 9px;
+  border: 1px solid #dfe3dd;
+  border-radius: 4px;
+  background: #fff;
+  color: #344e41;
+  font: inherit;
+  font-size: 10px;
+  box-sizing: border-box;
+}
+
+.campos-modal-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-produto footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 6px;
+}
+
+.modal-produto footer button {
+  min-height: 36px;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.botao-cancelar {
+  border: 1px solid #dfe3dd;
+  background: #fff;
+  color: #526056;
+}
+
+.botao-salvar {
+  border: 0;
+  background: #344e41;
+  color: #fff;
+}
+
+.botao-salvar:disabled {
+  background: #9da99c;
+  cursor: not-allowed;
+}
+
+@media (max-width: 420px) {
+  .modal-produto {
+    padding: 18px;
+  }
+}

@@ -1,0 +1,190 @@
+:host {
+  display: block;
+}
+
+.admin-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.admin-page-header p {
+  margin: 0 0 5px;
+  color: #788477;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.admin-page-header h1 {
+  margin: 0;
+  color: #27382f;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.avatar-admin {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border-radius: 50%;
+  background: #dce5dc;
+  color: #344e41;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.metricas-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.metrica-card {
+  display: flex;
+  min-height: 84px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #e2e6df;
+  border-radius: 5px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.metrica-icone {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8eee8;
+  color: #496352;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.metrica-card p {
+  margin: 0 0 4px;
+  color: #71796f;
+  font-size: 9px;
+}
+
+.metrica-card strong {
+  display: block;
+  color: #27382f;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.metrica-card small {
+  display: block;
+  margin-top: 5px;
+  color: #809079;
+  font-size: 8px;
+}
+
+.grafico-vendas {
+  padding: 16px 17px 12px;
+  border: 1px solid #e2e6df;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.grafico-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.grafico-cabecalho h2 {
+  margin: 0 0 4px;
+  color: #35463b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.grafico-cabecalho p {
+  margin: 0;
+  color: #83877f;
+  font-size: 8px;
+}
+
+.etiqueta-periodo {
+  padding: 6px 9px;
+  border: 1px solid #e2e6df;
+  border-radius: 4px;
+  color: #667366;
+  font-size: 8px;
+}
+
+.grafico-area {
+  position: relative;
+  height: 220px;
+  margin-top: 18px;
+  padding-left: 46px;
+  background: repeating-linear-gradient(to bottom, transparent 0, transparent 24%, #edf0eb 24.4%, transparent 25%);
+}
+
+.linhas-grafico {
+  position: absolute;
+  inset: 0 auto 17px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #8a8e86;
+  font-size: 7px;
+}
+
+.barras-grafico {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 14px;
+  align-items: end;
+}
+
+.barra-coluna {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: #80867d;
+  font-size: 7px;
+}
+
+.barra {
+  width: min(100%, 28px);
+  min-height: 12px;
+  border-radius: 6px 6px 0 0;
+  background: #b7c8a7;
+}
+
+.barra-coluna:nth-child(2n) .barra {
+  background: #8da17c;
+}
+
+.barra-coluna:nth-child(4) .barra {
+  background: #344e41;
+}
+
+@media (max-width: 700px) {
+  .metricas-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .metrica-card {
+    min-height: 68px;
+  }
+
+  .grafico-area {
+    height: 180px;
+  }
+}

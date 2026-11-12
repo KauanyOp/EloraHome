@@ -1,3 +1,119 @@
-<h1>Gerenciamento de Usuários</h1>
+<header class="admin-page-header">
+  <div>
+    <p>ELORA HOME · CLIENTES</p>
+    <h1>Usuários</h1>
+  </div>
+  <button class="botao-novo-usuario" type="button" (click)="novoUsuario()">+ Novo usuário</button>
+</header>
 
-<p>Página em desenvolvimento.</p>
+<section class="usuarios-admin-card">
+  <div class="usuarios-toolbar">
+    <nav class="filtros-usuarios" aria-label="Filtrar usuários">
+      @for (filtro of filtros; track filtro) {
+        <button
+          type="button"
+          [class.ativo]="filtroAtivo() === filtro"
+          [attr.aria-pressed]="filtroAtivo() === filtro"
+          (click)="filtroAtivo.set(filtro)"
+        >
+          {{ filtro }}
+        </button>
+      }
+    </nav>
+
+    <label class="busca-usuarios">
+      <span class="sr-only">Buscar usuários</span>
+      <input type="search" placeholder="Buscar usuário..." [value]="busca()" (input)="atualizarBusca($event)">
+    </label>
+  </div>
+
+  <div class="usuarios-tabela-scroll">
+    <table class="tabela-usuarios">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>Perfil</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuariosFiltrados; track usuario.id) {
+          <tr>
+            <td class="nome-usuario">{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.telefone }}</td>
+            <td>{{ usuario.perfil }}</td>
+            <td>
+              <span class="status-usuario" [class.inativo]="usuario.status === 'Inativo'">
+                {{ usuario.status }}
+              </span>
+            </td>
+            <td>
+              <div class="acoes-usuario">
+                <button type="button" [attr.aria-label]="'Editar ' + usuario.nome" (click)="editarUsuario(usuario)">✎</button>
+                <button
+                  type="button"
+                  [attr.aria-label]="(usuario.status === 'Ativo' ? 'Desativar ' : 'Ativar ') + usuario.nome"
+                  (click)="alternarStatus(usuario)"
+                >
+                  {{ usuario.status === 'Ativo' ? '−' : '+' }}
+                </button>
+                <button type="button" class="acao-remover" [attr.aria-label]="'Excluir ' + usuario.nome" (click)="removerUsuario(usuario.id)">×</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td class="usuarios-vazios" colspan="6">Nenhum usuário encontrado.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="usuarios-rodape">
+    Exibindo {{ usuariosFiltrados.length }} de {{ usuarios().length }} usuários
+  </footer>
+</section>
+
+@if (editorAberto()) {
+  <div class="usuario-modal-camada">
+    <button class="usuario-modal-fundo" type="button" aria-label="Fechar formulário" (click)="fecharEditor()"></button>
+    <section class="usuario-modal" role="dialog" aria-modal="true" aria-labelledby="usuario-modal-titulo">
+      <header>
+        <div>
+          <p>ELORA HOME · ACESSOS</p>
+          <h2 id="usuario-modal-titulo">{{ usuarioEditando() ? 'Editar usuário' : 'Novo usuário' }}</h2>
+        </div>
+        <button type="button" aria-label="Fechar" (click)="fecharEditor()">×</button>
+      </header>
+
+      <form #usuarioForm="ngForm" ngNativeValidate (ngSubmit)="salvarUsuario()">
+        <label class="campo-usuario">
+          <span>Nome completo</span>
+          <input type="text" name="nome" autocomplete="name" [(ngModel)]="dados.nome" required>
+        </label>
+        <label class="campo-usuario">
+          <span>E-mail</span>
+          <input type="email" name="email" autocomplete="email" [(ngModel)]="dados.email" required>
+        </label>
+        <label class="campo-usuario">
+          <span>Telefone</span>
+          <input type="tel" name="telefone" autocomplete="tel" [(ngModel)]="dados.telefone" required>
+        </label>
+        <label class="campo-usuario">
+          <span>Perfil</span>
+          <select name="perfil" [(ngModel)]="dados.perfil">
+            <option value="Cliente">Cliente</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+        </label>
+        <div class="usuario-modal-acoes">
+          <button class="botao-cancelar" type="button" (click)="fecharEditor()">Cancelar</button>
+          <button class="botao-salvar" type="submit" [disabled]="!usuarioForm.valid">Salvar usuário</button>
+        </div>
+      </form>
+    </section>
+  </div>
+}

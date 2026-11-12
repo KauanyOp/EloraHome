@@ -14,7 +14,6 @@ import { Checkout } from './pages/checkout/checkout';
 import { Pedido } from './pages/pedido/pedido';
 
 import { Carrinho } from './components/carrinho/carrinho';
-import { Confirmacao } from './components/confirmacao/confirmacao';
 
 import { Dashboard } from './admin/dashboard/dashboard';
 import { Produtos as AdminProdutos } from './admin/produtos/produtos';
@@ -32,7 +31,7 @@ export const routes: Routes = [
       { path: 'produto/:id', component: Produto },
       { path: 'carrinho', component: Carrinho },
       { path: 'checkout', component: Checkout },
-      { path: 'confirmacao', component: Confirmacao },
+      { path: 'confirmacao', redirectTo: 'checkout', pathMatch: 'full' },
       { path: 'pedido', component: Pedido }
     ]
   },

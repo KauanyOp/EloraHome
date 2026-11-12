@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #29352e;
+}
+
+.admin-container {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 190px minmax(0, 1fr);
+  background: #f5f6f3;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  padding: 21px 13px 15px;
+  box-sizing: border-box;
+  background: #344e41;
+  color: #fff;
+}
+
+.admin-identidade {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 5px 25px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.marca-admin {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #6a8067;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-identidade strong,
+.admin-identidade small {
+  display: block;
+}
+
+.admin-identidade strong {
+  font-size: 9px;
+  letter-spacing: 0.4px;
+}
+
+.admin-identidade small {
+  margin-top: 4px;
+  color: #c8d3c9;
+  font-size: 8px;
+}
+
+.admin-nav {
+  display: grid;
+  gap: 4px;
+}
+
+.admin-nav a {
+  display: flex;
+  min-height: 39px;
+  align-items: center;
+  gap: 11px;
+  padding: 0 10px;
+  border-radius: 4px;
+  color: #e7ece7;
+  font-size: 10px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.admin-nav a > span {
+  width: 16px;
+  color: #d7e0d7;
+  font-size: 13px;
+  text-align: center;
+}
+
+.admin-nav a:hover,
+.admin-nav a.ativo {
+  background: #496352;
+  color: #fff;
+}
+
+.voltar-loja {
+  margin-top: auto;
+  padding: 11px 10px;
+  color: #c8d3c9;
+  font-size: 9px;
+  text-decoration: none;
+}
+
+.admin-content {
+  min-width: 0;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .admin-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 12px;
+  }
+
+  .admin-identidade {
+    padding-bottom: 10px;
+  }
+
+  .admin-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .admin-nav a {
+    justify-content: center;
+    gap: 5px;
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  .admin-nav a > span {
+    display: none;
+  }
+
+  .voltar-loja {
+    display: none;
+  }
+
+  .admin-content {
+    padding: 18px 13px;
+  }
+}

@@ -1,1 +1,52 @@
-<p>editar-produto works!</p>
+<div class="modal-camada">
+  <button class="modal-fundo" type="button" aria-label="Fechar edição" (click)="cancelar.emit()"></button>
+  <section class="modal-produto" role="dialog" aria-modal="true" aria-labelledby="modal-produto-titulo">
+    <header>
+      <div>
+        <p>CATÁLOGO ELORA</p>
+        <h2 id="modal-produto-titulo">{{ produto() ? 'Editar produto' : 'Novo produto' }}</h2>
+      </div>
+      <button class="fechar-modal" type="button" aria-label="Fechar" (click)="cancelar.emit()">×</button>
+    </header>
+
+    <form #produtoForm="ngForm" (ngSubmit)="salvar()">
+      <label>
+        <span>Nome do produto</span>
+        <input type="text" name="nome" [(ngModel)]="dados.nome" required>
+      </label>
+
+      <div class="campos-modal-grade">
+        <label>
+          <span>Categoria</span>
+          <select name="categoria" [(ngModel)]="dados.categoria" required>
+            <option value="" disabled>Selecione</option>
+            <option value="cama">Cama e banho</option>
+            <option value="cozinha">Cozinha</option>
+            <option value="decoracao">Decoração</option>
+            <option value="organizacao">Organização</option>
+          </select>
+        </label>
+        <label>
+          <span>Preço</span>
+          <input type="number" name="preco" min="0.01" step="0.01" [(ngModel)]="dados.preco" required>
+        </label>
+        <label>
+          <span>Status</span>
+          <select name="status" [(ngModel)]="dados.status" required>
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+          </select>
+        </label>
+        <label>
+          <span>Estoque</span>
+          <input type="number" name="estoque" min="0" step="1" [(ngModel)]="dados.estoque" required>
+        </label>
+      </div>
+
+      <footer>
+        <button class="botao-cancelar" type="button" (click)="cancelar.emit()">Cancelar</button>
+        <button class="botao-salvar" type="submit" [disabled]="!produtoForm.valid">Salvar</button>
+      </footer>
+    </form>
+  </section>
+</div>

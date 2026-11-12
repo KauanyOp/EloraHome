@@ -1,3 +1,59 @@
-<h1>Gerenciamento de Produtos</h1>
+<header class="admin-page-header">
+  <div>
+    <p>ELORA HOME · CATÁLOGO</p>
+    <h1>Produtos</h1>
+  </div>
+  <button class="botao-novo-produto" type="button" (click)="novoProduto()">+ Novo produto</button>
+</header>
 
-<p>Página em desenvolvimento.</p>
+<section class="produtos-admin-card">
+  <div class="produtos-admin-filtros">
+    <label class="busca-produtos">
+      <span class="sr-only">Buscar produtos</span>
+      <input type="search" placeholder="Buscar produto..." [ngModel]="busca()" (ngModelChange)="busca.set($event)">
+    </label>
+    <span>{{ produtosFiltrados.length }} produtos</span>
+  </div>
+
+  <div class="tabela-scroll">
+    <table class="tabela-admin">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Categoria</th>
+          <th>Preço</th>
+          <th>Estoque</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (produto of produtosFiltrados; track produto.id) {
+          <tr>
+            <td class="nome-produto">{{ produto.nome }}</td>
+            <td>{{ formatarCategoria(produto.categoria) }}</td>
+            <td>{{ formatarPreco(produto.preco) }}</td>
+            <td>{{ produto.estoque }} un.</td>
+            <td><span class="status-produto" [class.inativo]="produto.status === 'Inativo'">{{ produto.status }}</span></td>
+            <td>
+              <div class="acoes-produto">
+                <button type="button" [attr.aria-label]="'Editar ' + produto.nome" (click)="editarProduto(produto)">✎</button>
+                <button type="button" class="acao-remover" [attr.aria-label]="'Excluir ' + produto.nome" (click)="removerProduto(produto.id)">×</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td class="tabela-vazia" colspan="6">Nenhum produto encontrado.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+@if (editorAberto()) {
+  <app-editar-produto
+    [produto]="produtoEditando()"
+    (salvo)="salvarProduto($event)"
+    (cancelar)="editorAberto.set(false)"
+  ></app-editar-produto>
+}

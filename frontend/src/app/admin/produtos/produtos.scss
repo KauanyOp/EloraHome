@@ -1,0 +1,167 @@
+:host {
+  display: block;
+}
+
+.admin-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.admin-page-header p {
+  margin: 0 0 5px;
+  color: #788477;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.admin-page-header h1 {
+  margin: 0;
+  color: #27382f;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.botao-novo-produto {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 4px;
+  background: #344e41;
+  color: #fff;
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.botao-novo-produto:hover {
+  background: #526b5c;
+}
+
+.produtos-admin-card {
+  border: 1px solid #e2e6df;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.produtos-admin-filtros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #edf0eb;
+}
+
+.produtos-admin-filtros > span {
+  color: #788177;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.busca-produtos input {
+  width: min(250px, 60vw);
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid #dfe3dd;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 9px;
+}
+
+.tabela-scroll {
+  overflow-x: auto;
+}
+
+.tabela-admin {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tabela-admin th {
+  padding: 10px 11px;
+  background: #fafbf9;
+  color: #737b71;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.tabela-admin td {
+  padding: 9px 11px;
+  border-top: 1px solid #edf0eb;
+  color: #555f56;
+  font-size: 8px;
+}
+
+.tabela-admin .nome-produto {
+  color: #344e41;
+  font-weight: 500;
+}
+
+.status-produto {
+  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 10px;
+  background: #edf4ec;
+  color: #496352;
+  font-size: 7px;
+}
+
+.status-produto.inativo {
+  background: #f8eeee;
+  color: #9a5c55;
+}
+
+.acoes-produto {
+  display: flex;
+  gap: 5px;
+}
+
+.acoes-produto button {
+  width: 23px;
+  height: 23px;
+  border: 1px solid #e2e6df;
+  border-radius: 4px;
+  background: #fff;
+  color: #526b5c;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.acoes-produto button:hover {
+  background: #f2f5f1;
+}
+
+.acoes-produto .acao-remover {
+  color: #9a5c55;
+}
+
+.tabela-admin .tabela-vazia {
+  padding: 30px;
+  color: #7d827a;
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .admin-page-header {
+    align-items: flex-start;
+  }
+
+  .tabela-admin {
+    min-width: 600px;
+  }
+}

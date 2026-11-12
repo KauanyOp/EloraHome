@@ -1,3 +1,89 @@
-<h1>Gerenciamento de Pedidos</h1>
+<header class="admin-page-header">
+  <div>
+    <p>ELORA HOME · OPERAÇÃO</p>
+    <h1>Pedidos</h1>
+  </div>
+  <span class="avatar-admin" aria-label="Administrador">E</span>
+</header>
 
-<p>Página em desenvolvimento.</p>
+<section class="pedidos-admin-card">
+  <div class="pedidos-toolbar">
+    <nav class="filtros-pedidos" aria-label="Filtrar pedidos">
+      @for (filtro of filtros; track filtro) {
+        <button type="button" [class.ativo]="filtroAtivo() === filtro" (click)="filtroAtivo.set(filtro)">
+          {{ filtro }}
+        </button>
+      }
+    </nav>
+    <label class="busca-pedidos">
+      <span class="sr-only">Buscar pedido</span>
+      <input type="search" placeholder="Buscar pedido..." [value]="busca()" (input)="atualizarBusca($event)">
+    </label>
+  </div>
+
+  <div class="pedidos-tabela-scroll">
+    <table class="pedidos-tabela">
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Itens</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (pedido of pedidosFiltrados; track pedido.codigo) {
+          <tr>
+            <td class="codigo-pedido">{{ pedido.codigo }}<small>{{ pedido.data }}</small></td>
+            <td>{{ pedido.cliente }}<small>{{ pedido.email }}</small></td>
+            <td>{{ formatarPreco(pedido.total) }}</td>
+            <td>{{ pedido.itens }}</td>
+            <td>
+              <span [class]="'status-pedido ' + pedido.status.toLocaleLowerCase('pt-BR').replace(' ', '-')">
+                {{ pedido.status }}
+              </span>
+            </td>
+            <td class="acoes-pedido">
+              <button type="button" [attr.aria-label]="'Ver pedido ' + pedido.codigo" (click)="verPedido(pedido)">⌕</button>
+              <select [value]="pedido.status" [attr.aria-label]="'Alterar status do pedido ' + pedido.codigo" (change)="alterarStatus(pedido.codigo, $event)">
+                <option value="Aguardando">Aguardando</option>
+                <option value="Em trânsito">Em trânsito</option>
+                <option value="Entregue">Entregue</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td class="pedidos-vazio" colspan="6">Nenhum pedido encontrado.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <footer class="pedidos-rodape">Exibindo {{ pedidosFiltrados.length }} de {{ pedidos().length }} pedidos</footer>
+</section>
+
+@if (pedidoSelecionado(); as pedido) {
+  <div class="pedido-modal-camada">
+    <button class="pedido-modal-fundo" type="button" aria-label="Fechar detalhes" (click)="fecharDetalhes()"></button>
+    <section class="pedido-modal" role="dialog" aria-modal="true" aria-labelledby="pedido-modal-titulo">
+      <header>
+        <div>
+          <p>DETALHES DO PEDIDO</p>
+          <h2 id="pedido-modal-titulo">{{ pedido.codigo }}</h2>
+        </div>
+        <button type="button" aria-label="Fechar" (click)="fecharDetalhes()">×</button>
+      </header>
+      <dl>
+        <div><dt>Cliente</dt><dd>{{ pedido.cliente }}</dd></div>
+        <div><dt>E-mail</dt><dd>{{ pedido.email }}</dd></div>
+        <div><dt>Data do pedido</dt><dd>{{ pedido.data }}</dd></div>
+        <div><dt>Quantidade de itens</dt><dd>{{ pedido.itens }}</dd></div>
+        <div><dt>Total</dt><dd>{{ formatarPreco(pedido.total) }}</dd></div>
+        <div><dt>Status</dt><dd>{{ pedido.status }}</dd></div>
+      </dl>
+      <button class="fechar-detalhes" type="button" (click)="fecharDetalhes()">Fechar</button>
+    </section>
+  </div>
+}
