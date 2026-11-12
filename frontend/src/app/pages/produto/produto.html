@@ -1,32 +1,39 @@
-<div>
+<br><br><br>
+@if (produto(); as item) {
+  <main class="pagina-produto">
+    <section class="detalhe-produto">
+      <div class="produto-foto">
+        <img [src]="item.imagem" [alt]="item.alt">
+      </div>
 
-  <img
-    src="https://placehold.co/500x350"
-    alt="produto"
-  >
+      <div class="produto-informacoes">
+        <p class="produto-categoria">{{ item.categoria }}</p>
+        <h1>{{ item.nome }}</h1>
+        <p class="produto-preco">{{ formatarPreco(item.preco) }}</p>
+        <p class="produto-parcelas">Em até 3x sem juros no cartão</p>
+        <p class="produto-descricao">{{ item.alt }}. Uma escolha especial para deixar sua casa ainda mais acolhedora.</p>
 
-  <div>
+        <ul class="produto-detalhes">
+          <li>Design atemporal para o dia a dia</li>
+          <li>Acabamento selecionado pela Elora Home</li>
+          <li>Frete calculado no checkout</li>
+        </ul>
 
-    <h1>{{ produto.nome }}</h1>
-
-    <h2>R$ {{ produto.preco }}</h2>
-
-    <p>{{ produto.descricao }}</p>
-
-    <label for="quantidade-produto">Quantidade</label>
-
-    <input
-      id="quantidade-produto"
-      type="number"
-      min="1"
-      [value]="quantidade()"
-      (input)="atualizarQuantidade($event)"
-    >
-
-    <button type="button" (click)="adicionarAoCarrinho()">
-      Adicionar ao carrinho
-    </button>
-
-  </div>
-
-</div>
+        <p class="rotulo-quantidade" id="rotulo-quantidade">Quantidade</p>
+        <div class="produto-acoes" aria-labelledby="rotulo-quantidade">
+          <div class="controle-quantidade" aria-label="Quantidade">
+            <button type="button" aria-label="Diminuir quantidade" [disabled]="quantidade() <= 1" (click)="quantidade.update((valor) => valor - 1)">−</button>
+            <span>{{ quantidade() }}</span>
+            <button type="button" aria-label="Aumentar quantidade" (click)="quantidade.update((valor) => valor + 1)">+</button>
+          </div>
+          <button type="button" class="botao-adicionar" (click)="adicionarAoCarrinho()">Adicionar ao carrinho</button>
+        </div>
+      </div>
+    </section>
+  </main>
+} @else {
+  <main class="produto-nao-encontrado">
+    <h1>Produto não encontrado</h1>
+    <a routerLink="/produtos">Voltar para os produtos</a>
+  </main>
+}

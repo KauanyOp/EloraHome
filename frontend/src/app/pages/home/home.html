@@ -2,7 +2,7 @@
   <div class="banner-conteudo">
     <p class="assinatura-banner">ELORA HOME <span>CASA &amp; DECORAÇÃO</span></p>
     <h1>Transforme sua casa em um lar</h1>
-    <p>Peças escolhidas para deixar seus momentos cotidianos ainda mais especiais.</p>
+    <p>Produtos cuidadosamente selecionados para cada ambiente da sua vida</p>
     <a routerLink="/produtos">Explorar coleção</a>
   </div>
 </section>
@@ -12,7 +12,7 @@
   <div class="lista-categorias">
     <a routerLink="/produtos" class="categoria-card categoria-destaque">
       <img
-        src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=85"
+        src="/img/produtos/jogo-de-cama.png"
         alt="Cama com roupa branca e almofadas decorativas"
         loading="lazy"
         decoding="async"
@@ -29,7 +29,7 @@
 
     <a routerLink="/produtos" class="categoria-card categoria-lateral" aria-label="Ver produtos para quartos">
       <img
-        src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+        src="/img/produtos/Quarto-decorado.png"
         alt="Quarto decorado com cama e poltrona"
         loading="lazy"
         decoding="async"
@@ -38,8 +38,8 @@
 
     <a routerLink="/produtos" class="categoria-card categoria-lateral" aria-label="Ver velas e decoração">
       <img
-        src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
-        alt="Vela acesa em um ambiente aconchegante"
+        src="/img/produtos/Jogo-de-cama-verde.jpg"
+        alt="Jogo de cama verde sobre a cama"
         loading="lazy"
         decoding="async"
       >
@@ -49,60 +49,57 @@
 
 <section class="faixa-editorial faixa-ambientes">
   <img
-    src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&amp;fit=crop&amp;w=1800&amp;q=85"
+    src="/img/produtos/Sala-decorada.png"
     alt="Sala de estar decorada com peças naturais"
     loading="lazy"
     decoding="async"
   >
   <div class="faixa-conteudo">
-    <p>AMBIENTES ELORA</p>
     <h2>Novos ambientes,<br>novas histórias.</h2>
-    <a routerLink="/produtos">Descubra a coleção</a>
   </div>
 </section>
 
 <section class="vitrine-home">
   <header class="vitrine-cabecalho">
     <div>
-      <p>ESCOLHAS DA CASA</p>
       <h2>Mais vendidos</h2>
     </div>
     <a routerLink="/produtos">Ver todos os produtos</a>
   </header>
-</section>
 
-<div class="vitrine-produtos">
-  @for (produto of destaques; track produto.id) {
-    <article class="produto-home">
-      <a class="produto-home-imagem" [routerLink]="['/produto', produto.id]">
-        <img [src]="produto.imagem" [alt]="produto.alt" loading="lazy" decoding="async">
-      </a>
-      <div class="produto-home-info">
-        <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
-        <p>{{ formatarPreco(produto.preco) }}</p>
-      </div>
-    </article>
-  }
-</div>
+  <div class="vitrine-produtos">
+    @for (produto of destaques; track produto.id) {
+      <article class="produto-home">
+        <a class="produto-home-imagem" [routerLink]="['/produto', produto.id]">
+          <img [src]="produto.imagem" [alt]="produto.alt" loading="lazy" decoding="async">
+        </a>
+        <div class="produto-home-info">
+          <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
+          <p>{{ formatarPreco(produto.preco) }}</p>
+          <button type="button" class="adicionar-produto" (click)="adicionarAoCarrinho(produto)">
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </article>
+    }
+  </div>
+</section>
 
 <section class="faixa-editorial faixa-conforto">
   <img
-    src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&amp;fit=crop&amp;w=1800&amp;q=85"
+    src="/img/produtos/sala.png"
     alt="Quarto preparado com tecidos macios e luz natural"
     loading="lazy"
     decoding="async"
   >
   <div class="faixa-conteudo">
-    <p>O SEU TEMPO, O SEU ESPAÇO</p>
-    <h2>Conforto em cada detalhe.</h2>
-    <a routerLink="/produtos">Encontre o seu</a>
+    <h2>Conforto em cada detalhe</h2>
   </div>
 </section>
 
 <section class="vitrine-home vitrine-novidades">
   <header class="vitrine-cabecalho">
     <div>
-      <p>ACABARAM DE CHEGAR</p>
       <h2>Novidades</h2>
     </div>
     <a routerLink="/produtos">Ver toda a coleção</a>
@@ -117,6 +114,9 @@
         <div class="produto-home-info">
           <h3><a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a></h3>
           <p>{{ formatarPreco(produto.preco) }}</p>
+          <button type="button" class="adicionar-produto" (click)="adicionarAoCarrinho(produto)">
+            Adicionar ao carrinho
+          </button>
         </div>
       </article>
     }

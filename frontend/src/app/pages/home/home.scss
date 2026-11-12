@@ -82,7 +82,7 @@
   display: grid;
   max-width: 1280px;
   margin: 0 auto;
-  grid-template-columns: 1.04fr 1fr;
+  grid-template-columns: 1.1fr 1fr;
   grid-template-rows: repeat(2, 155px);
   gap: 20px;
 }
@@ -288,6 +288,23 @@
   color: #5D3E28;
   font-size: 14px;
   font-weight: 600;
+}
+
+.adicionar-produto {
+  width: 100%;
+  min-height: 36px;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border: 0;
+  background: #526B5C;
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.adicionar-produto:hover {
+  background: #344E41;
 }
 
 .vitrine-novidades {

@@ -1,14 +1,12 @@
 <section class="produtos-banner">
   <div class="produtos-banner-conteudo">
     <p>ELORA HOME · CASA &amp; DECORAÇÃO</p>
-    <h1>Peças para viver bem.</h1>
   </div>
 </section>
 
 <section class="pagina-produtos">
   <header class="cabecalho-produtos">
     <div>
-      <p>CURADORIA ELORA</p>
       <h2>Nossos produtos</h2>
     </div>
     <span>{{ produtosFiltrados.length }} produtos</span>
@@ -26,6 +24,13 @@
       </button>
     }
   </nav>
+
+  @if (busca()) {
+    <p class="texto-busca">
+      Resultados para <strong>“{{ busca() }}”</strong>
+      <button type="button" (click)="limparBusca()">Limpar busca</button>
+    </p>
+  }
 
   <div class="grade-produtos">
     @for (produto of produtosFiltrados; track produto.id) {

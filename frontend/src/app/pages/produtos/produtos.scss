@@ -11,7 +11,7 @@
   align-items: end;
   padding: 88px 8% 30px;
   box-sizing: border-box;
-  background-image: linear-gradient(0deg, rgb(24 35 29 / 62%), rgb(24 35 29 / 8%)), url('/img/Banner.png');
+  background-image: linear-gradient(0deg, rgb(24 35 29 / 62%), rgb(24 35 29 / 8%)), url('/img/Banner2.png');
   background-position: center 58%;
   background-size: cover;
 }
@@ -95,6 +95,29 @@
   border-color: #526B5C;
   background: #526B5C;
   color: #fff;
+}
+
+.texto-busca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -12px 0 20px;
+  color: #747A73;
+  font-size: 13px;
+}
+
+.texto-busca strong {
+  color: #344E41;
+}
+
+.texto-busca button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #526B5C;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .grade-produtos {
