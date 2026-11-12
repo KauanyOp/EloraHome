@@ -1,13 +1,14 @@
-<header class="cabecalho">
+<header class="cabecalho" [class.header-checkout]="checkoutHeader">
 
-  <a routerLink="/" aria-label="Elora Home - início">
+  <a class="brand-link" routerLink="/" aria-label="Elora Home - início">
     <img src="/img/logo-verde-escuro.svg" class="logo" alt="">
+    <span class="logo-text">ELORA HOME</span>
   </a>
 
   <nav class="menu">
-    <a routerLink="/produtos" [queryParams]="{ categoria: 'kits' }">Kits</a>
     <a routerLink="/produtos" [queryParams]="{ categoria: 'organizacao' }">Organização</a>
     <a routerLink="/produtos" [queryParams]="{ categoria: 'decoracao' }">Decoração</a>
+    <a routerLink="/pedido">Acompanhar pedido</a>
     <label class="menu-select">
       <select aria-label="Selecionar cômodo" (change)="selecionarComodo($event)">
         <option value="" selected>Cômodos</option>
@@ -23,9 +24,29 @@
   </nav>
 
   <div class="icons">
-    <button class="icon-button" type="button" aria-label="Buscar" title="Buscar">
+    <button
+      class="icon-button"
+      type="button"
+      aria-label="Buscar produtos"
+      title="Buscar"
+      [attr.aria-expanded]="buscaAberta()"
+      aria-controls="busca-produtos"
+      (click)="alternarBusca()"
+    >
       <img src="/icons/search.svg" alt="">
     </button>
+    @if (buscaAberta()) {
+      <form class="busca-form" id="busca-produtos" role="search" (submit)="buscar($event)">
+        <input
+          type="search"
+          aria-label="Buscar produtos"
+          placeholder="Buscar produtos..."
+          [value]="termoBusca()"
+          (input)="atualizarBusca($event)"
+        >
+        <button type="submit">Buscar</button>
+      </form>
+    }
     <button
       class="icon-button cart-button"
       type="button"

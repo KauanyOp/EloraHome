@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { CadastroEndereco } from './cadastro-endereco';
 
 describe('CadastroEndereco', () => {
@@ -8,6 +9,7 @@ describe('CadastroEndereco', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CadastroEndereco],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CadastroEndereco);

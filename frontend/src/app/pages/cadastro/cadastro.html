@@ -1,1 +1,25 @@
-<p>cadastro works!</p>
+<main class="pagina-cadastro">
+  <section class="cartao-cadastro">
+    <p class="cadastro-marca">ELORA HOME · CRIAR CONTA</p>
+    <h1>Criar conta</h1>
+    <form (submit)="avancar($event)">
+      <label for="cadastro-nome">Nome</label>
+      <input id="cadastro-nome" name="nome" type="text" placeholder="Digite seu nome completo" autocomplete="name" required>
+
+      <label for="cadastro-nascimento">Data de nascimento</label>
+      <input id="cadastro-nascimento" name="nascimento" type="date" autocomplete="bday" required>
+
+      <label for="cadastro-telefone">Telefone</label>
+      <input id="cadastro-telefone" name="telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required>
+
+      <label for="cadastro-email">E-mail</label>
+      <input id="cadastro-email" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+
+      <label for="cadastro-senha">Senha</label>
+      <input id="cadastro-senha" name="senha" type="password" placeholder="Crie uma senha segura" autocomplete="new-password" minlength="8" required>
+
+      <button type="submit">Avançar <span aria-hidden="true">→</span></button>
+    </form>
+    <p class="cadastro-login">Já tem conta? <a routerLink="/login">Fazer login</a></p>
+  </section>
+</main>

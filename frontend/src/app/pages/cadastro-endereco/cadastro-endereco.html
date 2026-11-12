@@ -1,1 +1,27 @@
-<p>cadastro-endereco works!</p>
+<main class="pagina-cadastro-endereco">
+  <section class="cartao-endereco">
+    <p class="cadastro-marca">ELORA HOME · CRIAR CONTA</p>
+    <h1>Endereço de entrega</h1>
+    <form (submit)="criarConta($event)">
+      <label for="endereco-cep">CEP</label>
+      <input id="endereco-cep" name="cep" type="text" placeholder="Digite seu CEP" autocomplete="postal-code" required>
+
+      <label for="endereco-rua">Endereço</label>
+      <input id="endereco-rua" name="rua" type="text" placeholder="Rua, número e complemento" autocomplete="street-address" required>
+
+      <label for="endereco-estado">Estado</label>
+      <select id="endereco-estado" name="estado" autocomplete="address-level1" required>
+        <option value="" disabled selected>Selecione seu estado</option>
+        @for (estado of estados; track estado) {
+          <option [value]="estado">{{ estado }}</option>
+        }
+      </select>
+
+      <label for="endereco-cidade">Cidade</label>
+      <input id="endereco-cidade" name="cidade" type="text" placeholder="Sua cidade" autocomplete="address-level2" required>
+
+      <button type="submit">Criar conta</button>
+    </form>
+    <p class="cadastro-login">Já tem conta? <a routerLink="/login">Fazer login</a></p>
+  </section>
+</main>

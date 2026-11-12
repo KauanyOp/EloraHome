@@ -1,19 +1,21 @@
-<form>
-
+<section class="cartao-login">
+  <p class="login-marca">ELORA HOME</p>
   <h1>Login</h1>
+  <p class="login-introducao">Entre com seus dados para continuar</p>
 
-  <input
-    type="email"
-    placeholder="E-mail"
-  >
+  <form (submit)="entrar($event)">
+    <label for="email-login">E-mail</label>
+    <input id="email-login" type="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
 
-  <input
-    type="password"
-    placeholder="Senha"
-  >
+    <label for="senha-login">Senha</label>
+    <input id="senha-login" type="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
 
-  <button>
-    Entrar
-  </button>
+    <button type="submit">Entrar</button>
+    @if (aviso()) {
+      <p class="aviso-login" role="status">{{ aviso() }}</p>
+    }
+  </form>
 
-</form>
+  <p class="login-cadastro">Não tem conta? <a routerLink="/cadastro">Criar uma conta</a></p>
+  <a class="login-voltar" routerLink="/admin/dashboard">Acesso administrativo</a>
+</section>
