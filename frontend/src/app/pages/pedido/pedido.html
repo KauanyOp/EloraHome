@@ -1,10 +1,75 @@
-<h1>Acompanhar Pedido</h1>
+<br>
+<main class="pagina-pedido">
+  @if (pedido.atual(); as atual) {
+    <header class="pedido-cabecalho">
+      <div>
+        <p>PEDIDO {{ atual.codigo }}</p>
+        <h1>Acompanhe seu pedido</h1>
+        <span>Realizado em {{ formatarData(atual.criadoEm) }}</span>
+      </div>
+      <a routerLink="/produtos">Continuar comprando</a>
+    </header>
 
-<p>Pedido #12345</p>
+    <section class="pedido-andamento" aria-label="Etapas do pedido">
+      <h2>Status do pedido</h2>
+      <ol class="linha-etapas">
+        @for (etapa of etapas; track etapa; let indice = $index) {
+          <li [class.concluida]="indice === 0" [class.proxima]="indice > 0">
+            <span class="etapa-marcador">{{ indice === 0 ? '✓' : indice + 1 }}</span>
+            <span>{{ etapa }}</span>
+          </li>
+        }
+      </ol>
+      <p class="status-inicial">Seu pedido foi recebido. Você poderá acompanhar as próximas etapas por aqui.</p>
+    </section>
 
-<ul>
-  <li>Pedido realizado</li>
-  <li>Pagamento aprovado</li>
-  <li>Em separação</li>
-  <li>Enviado</li>
-</ul>
+    <div class="pedido-colunas">
+      <section class="pedido-dados">
+        <h2>Entrega e pagamento</h2>
+        <div class="dados-pedido-grade">
+          <div>
+            <h3>Endereço de entrega</h3>
+            <p>{{ atual.cliente.nome }}</p>
+            <p>{{ atual.cliente.endereco }}{{ atual.cliente.numero ? ', ' + atual.cliente.numero : '' }}</p>
+            @if (atual.cliente.complemento) {
+              <p>{{ atual.cliente.complemento }}</p>
+            }
+            @if (atual.cliente.cidade || atual.cliente.estado) {
+              <p>{{ atual.cliente.cidade }}{{ atual.cliente.estado ? ' - ' + atual.cliente.estado : '' }}</p>
+            }
+            <p>CEP: {{ atual.cliente.cep }}</p>
+          </div>
+          <div>
+            <h3>Forma de pagamento</h3>
+            <p>{{ atual.pagamento === 'pix' ? 'Pix' : 'Cartão de crédito' }}</p>
+            <p>{{ formatarPreco(atual.total) }}</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="pedido-resumo">
+        <h2>Resumo da compra</h2>
+        @for (item of atual.itens; track item.id) {
+          <article class="pedido-item">
+            <img [src]="item.imagem" [alt]="item.nome">
+            <div>
+              <h3>{{ item.nome }}</h3>
+              <p>{{ item.quantidade }} × {{ formatarPreco(item.preco) }}</p>
+              <strong>{{ formatarPreco(item.preco * item.quantidade) }}</strong>
+            </div>
+          </article>
+        }
+        <div class="pedido-total">
+          <span>Total</span>
+          <strong>{{ formatarPreco(atual.total) }}</strong>
+        </div>
+      </aside>
+    </div>
+  } @else {
+    <section class="pedido-vazio">
+      <h1>Nenhum pedido para acompanhar</h1>
+      <p>Assim que você concluir uma compra, os detalhes aparecerão aqui.</p>
+      <a routerLink="/produtos">Explorar produtos</a>
+    </section>
+  }
+</main>

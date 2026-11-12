@@ -1,0 +1,275 @@
+:host {
+  display: block;
+  background: #fff9f3;
+  color: #344e41;
+}
+
+.pagina-pedido {
+  max-width: 1200px;
+  min-height: 68vh;
+  margin: 0 auto;
+  padding: 38px 7% 72px;
+}
+
+.pedido-cabecalho {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.pedido-cabecalho p {
+  margin: 0 0 8px;
+  color: #758273;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+.pedido-cabecalho h1 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.pedido-cabecalho span {
+  color: #777b73;
+  font-size: 11px;
+}
+
+.pedido-cabecalho > a {
+  color: #526b5c;
+  font-size: 11px;
+}
+
+.pedido-andamento,
+.pedido-dados,
+.pedido-resumo {
+  padding: 20px;
+  border: 1px solid #e4ded5;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.pedido-andamento {
+  margin-bottom: 17px;
+}
+
+.pedido-andamento h2,
+.pedido-dados h2,
+.pedido-resumo h2 {
+  margin: 0 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.linha-etapas {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linha-etapas li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #858980;
+  font-size: 9px;
+  text-align: center;
+}
+
+.linha-etapas li:not(:last-child)::after {
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 15px);
+  width: calc(100% - 30px);
+  height: 1px;
+  background: #d9ded4;
+  content: '';
+}
+
+.etapa-marcador {
+  z-index: 1;
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid #d9ded4;
+  border-radius: 50%;
+  background: #fff;
+  color: #858980;
+  font-size: 10px;
+}
+
+.linha-etapas li.concluida {
+  color: #344e41;
+  font-weight: 600;
+}
+
+.linha-etapas li.concluida .etapa-marcador {
+  border-color: #526b5c;
+  background: #526b5c;
+  color: #fff;
+}
+
+.status-inicial {
+  margin: 18px 0 0;
+  color: #6d746a;
+  font-size: 10px;
+}
+
+.pedido-colunas {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(270px, 0.9fr);
+  gap: 17px;
+  align-items: start;
+}
+
+.dados-pedido-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.dados-pedido-grade h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.dados-pedido-grade p {
+  margin: 0 0 5px;
+  color: #777b73;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.pedido-item {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid #eee9e2;
+}
+
+.pedido-item img {
+  width: 58px;
+  height: 62px;
+  border-radius: 4px;
+  background: #f1eee8;
+  object-fit: cover;
+}
+
+.pedido-item h3 {
+  margin: 1px 0 5px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.pedido-item p {
+  margin: 0 0 5px;
+  color: #81847d;
+  font-size: 10px;
+}
+
+.pedido-item strong {
+  color: #9c3d3d;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.pedido-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid #e4ded5;
+  font-size: 12px;
+}
+
+.pedido-total strong:last-child {
+  color: #9c3d3d;
+}
+
+.pedido-vazio {
+  display: grid;
+  min-height: 340px;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.pedido-vazio h1,
+.pedido-vazio p {
+  margin: 0;
+}
+
+.pedido-vazio h1 {
+  font-size: 21px;
+}
+
+.pedido-vazio p {
+  color: #777b73;
+  font-size: 12px;
+}
+
+.pedido-vazio a {
+  color: #526b5c;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .pagina-pedido {
+    padding: 30px 6% 52px;
+  }
+
+  .pedido-colunas {
+    grid-template-columns: 1fr;
+  }
+
+  .linha-etapas li {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pedido-cabecalho {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .pedido-andamento,
+  .pedido-dados,
+  .pedido-resumo {
+    padding: 15px;
+  }
+
+  .dados-pedido-grade {
+    grid-template-columns: 1fr;
+  }
+
+  .linha-etapas {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 11px;
+  }
+
+  .linha-etapas li {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+
+  .linha-etapas li:not(:last-child)::after {
+    top: 27px;
+    left: 13px;
+    width: 1px;
+    height: calc(100% + 11px);
+  }
+}

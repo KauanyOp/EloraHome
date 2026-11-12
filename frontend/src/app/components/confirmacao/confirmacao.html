@@ -1,13 +1,13 @@
-<div>
-
-  <h1>✅ Pedido Confirmado</h1>
-
-  <p>
-    Seu pedido foi realizado com sucesso.
-  </p>
-
-  <button>
-    Acompanhar Pedido
-  </button>
-
-</div>
+@if (pedido.atual(); as atual) {
+  <div class="pagina-confirmacao">
+    <section class="cartao-confirmacao" role="dialog" aria-modal="true" aria-labelledby="confirmacao-titulo">
+      <div class="confirmacao-icone" aria-hidden="true">✓</div>
+      <p class="confirmacao-marca">ELORA HOME</p>
+      <h1 id="confirmacao-titulo">Pedido confirmado!</h1>
+      <p class="confirmacao-texto">Obrigada pela sua compra. Já estamos preparando tudo com carinho.</p>
+      <p class="confirmacao-codigo">Pedido <strong>{{ atual.codigo }}</strong></p>
+      <a class="botao-acompanhar" routerLink="/pedido" (click)="carrinho.limpar()">Acompanhar pedido</a>
+      <a class="link-continuar" routerLink="/produtos" (click)="carrinho.limpar()">Continuar comprando</a>
+    </section>
+  </div>
+}

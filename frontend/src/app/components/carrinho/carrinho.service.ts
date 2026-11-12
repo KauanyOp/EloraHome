@@ -62,4 +62,9 @@ export class CarrinhoService {
   remover(id: number): void {
     this.itens.update((itens) => itens.filter((item) => item.id !== id));
   }
+
+  limpar(): void {
+    this.itens.set([]);
+    this.fechar();
+  }
 }

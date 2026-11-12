@@ -1,0 +1,297 @@
+:host {
+  display: block;
+  background: #fff;
+  color: #344e41;
+}
+
+.pagina-checkout {
+  width: min(1120px, 100%);
+  min-height: 67vh;
+  margin: 0 auto;
+  padding: 66px 4% 42px;
+  box-sizing: border-box;
+}
+
+.checkout-cabecalho {
+  margin-bottom: 15px;
+}
+
+.checkout-cabecalho h1 {
+  margin: 0;
+  color: #27382f;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.checkout-colunas {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.78fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.checkout-secoes {
+  display: grid;
+  gap: 11px;
+}
+
+.checkout-bloco,
+.resumo-checkout {
+  padding: 15px;
+  border: 1px solid #e3e5e0;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 2px 3px rgb(25 34 29 / 7%);
+}
+
+.checkout-bloco h2,
+.resumo-checkout > h2 {
+  margin: 0 0 12px;
+  color: #27382f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.grade-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 13px;
+}
+
+.campo {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.campo-largo {
+  grid-column: 1 / -1;
+}
+
+.campo > span {
+  color: #586258;
+  font-size: 8px;
+}
+
+.campo input {
+  width: 100%;
+  min-height: 31px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border: 1px solid #9cad9b;
+  border-radius: 5px;
+  outline-color: #526b5c;
+  background: #fff;
+  color: #344e41;
+  font: inherit;
+  font-size: 9px;
+}
+
+.campo input::placeholder {
+  color: #a1a69f;
+  font-size: 8px;
+}
+
+.opcoes-pagamento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+.opcao-pagamento {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #d6ddd4;
+  border-radius: 5px;
+  background: #fff;
+  color: #647064;
+  font-size: 8px;
+  cursor: pointer;
+}
+
+.opcao-pagamento.selecionada {
+  border-color: #b6c8a9;
+  background: #e7eee1;
+  color: #526b5c;
+}
+
+.opcao-pagamento input {
+  width: 11px;
+  height: 11px;
+  margin: 0;
+  accent-color: #526b5c;
+}
+
+.campos-cartao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px 12px;
+}
+
+.aviso-pagamento {
+  margin: 9px 0 0;
+  color: #858980;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.resumo-coluna {
+  display: grid;
+  gap: 13px;
+}
+
+.resumo-checkout > h2 {
+  margin-bottom: 9px;
+  text-align: center;
+}
+
+.resumo-itens {
+  max-height: 255px;
+  overflow: auto;
+}
+
+.resumo-item {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid #eee9e2;
+}
+
+.resumo-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: 5px;
+  background: #f1eee8;
+  object-fit: cover;
+}
+
+.resumo-item h3 {
+  margin: 1px 0 3px;
+  color: #344e41;
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.resumo-item p {
+  margin: 0 0 3px;
+  color: #999c95;
+  font-size: 7px;
+}
+
+.resumo-item strong {
+  color: #bd4d4d;
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.resumo-linha,
+.resumo-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 9px;
+  color: #81847d;
+  font-size: 8px;
+}
+
+.resumo-total {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e4ded5;
+  color: #27382f;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.resumo-total strong:last-child {
+  color: #bd4d4d;
+}
+
+.botao-confirmar {
+  min-height: 39px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 6px;
+  background: #344e41;
+  color: #fff;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.botao-confirmar:hover:not(:disabled) {
+  background: #526b5c;
+}
+
+.botao-confirmar:disabled {
+  background: #a7b0a7;
+  cursor: not-allowed;
+}
+
+.checkout-vazio {
+  display: grid;
+  min-height: 300px;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: #62685f;
+  text-align: center;
+}
+
+.checkout-vazio h2,
+.checkout-vazio p {
+  margin: 0;
+}
+
+.checkout-vazio h2 {
+  color: #344e41;
+  font-size: 20px;
+}
+
+.checkout-vazio p {
+  font-size: 13px;
+}
+
+.checkout-vazio a {
+  margin-top: 8px;
+  color: #344e41;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .pagina-checkout {
+    padding-top: 59px;
+  }
+
+  .checkout-colunas {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-coluna {
+    order: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-checkout {
+    padding: 19px 4% 32px;
+  }
+
+  .checkout-bloco,
+  .resumo-checkout {
+    padding: 12px;
+  }
+
+  .grade-campos,
+  .campos-cartao {
+    gap: 8px;
+  }
+}
