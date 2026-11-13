@@ -1,13 +1,44 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { Usuarios } from './usuarios';
+import { StoreApiService } from '../../core/store-api.service';
+
+const users = [
+  { id: 1, name: 'Ana Souza', email: 'ana.souza@example.com', phone: '(11) 98765-4321', birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: true },
+  { id: 2, name: 'Camila Oliveira', email: 'camila@example.com', phone: '(31) 96543-2109', birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: false }
+];
 
 describe('Usuarios', () => {
   let component: Usuarios;
   let fixture: ComponentFixture<Usuarios>;
 
   beforeEach(async () => {
+    const api = {
+      listUsers: () => of(users),
+      createUser: (user: { name: string; email: string; phone: string; password: string; is_admin: boolean }) => of({
+        ...users[0],
+        id: 3,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        is_admin: user.is_admin,
+        is_active: true
+      }),
+      updateUser: (id: number, patch: Record<string, unknown>) => {
+        const user = users.find((item) => item.id === id) ?? {
+          ...users[0],
+          id,
+          name: 'Joana Lima',
+          email: 'joana@example.com',
+          phone: '(11) 90000-0000'
+        };
+        return of({ ...user, ...patch });
+      },
+      deleteUser: () => of(undefined)
+    };
     await TestBed.configureTestingModule({
       imports: [Usuarios],
+      providers: [{ provide: StoreApiService, useValue: api }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Usuarios);
@@ -30,13 +61,14 @@ describe('Usuarios', () => {
     expect(component.usuariosFiltrados.every((usuario) => usuario.status === 'Inativo')).toBe(true);
   });
 
-  it('creates, edits, deactivates, and removes a user locally', () => {
+  it('creates, edits, deactivates, and removes users through the API service', () => {
     component.novoUsuario();
     Object.assign(component.dados, {
       nome: 'Joana Lima',
       email: 'joana@example.com',
       telefone: '(11) 90000-0000',
-      perfil: 'Cliente'
+      perfil: 'Cliente',
+      senha: 'senha-segura-123'
     });
     component.salvarUsuario();
 

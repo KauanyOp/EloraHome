@@ -1,6 +1,7 @@
 import { Component, HostBinding, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CarrinhoService } from '../carrinho/carrinho.service';
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ import { CarrinhoService } from '../carrinho/carrinho.service';
 })
 export class Header {
   readonly carrinho = inject(CarrinhoService);
+  readonly auth = inject(AuthService);
   readonly buscaAberta = signal(false);
   readonly termoBusca = signal('');
   private readonly router = inject(Router);

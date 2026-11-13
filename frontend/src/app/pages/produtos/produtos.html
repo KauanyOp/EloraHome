@@ -5,6 +5,9 @@
 </section>
 
 <section class="pagina-produtos">
+  @if (erro()) {
+    <p role="alert">{{ erro() }}</p>
+  }
   <header class="cabecalho-produtos">
     <div>
       <h2>Nossos produtos</h2>

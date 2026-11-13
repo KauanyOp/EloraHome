@@ -12,6 +12,17 @@ class Order extends Model
         'user_id',
         'status',
         'total',
+        'shipping_name',
+        'shipping_email',
+        'shipping_phone',
+        'shipping_cep',
+        'shipping_street',
+        'shipping_number',
+        'shipping_complement',
+        'shipping_neighborhood',
+        'shipping_city',
+        'shipping_state',
+        'payment_method',
     ];
 
     protected function casts(): array

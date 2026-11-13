@@ -1,7 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 import { catalogoProdutos } from './catalogo';
 import { Produtos } from './produtos';
+import { StoreApiService } from '../../core/store-api.service';
+
+const categoryNames: Record<string, string> = {
+  organizacao: 'Organização',
+  decoracao: 'Decoração',
+  cozinha: 'Cozinha',
+  quarto: 'Quarto',
+  sala: 'Sala',
+  banheiro: 'Banheiro'
+};
 
 describe('Produtos', () => {
   let component: Produtos;
@@ -10,7 +21,30 @@ describe('Produtos', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Produtos],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: StoreApiService,
+          useValue: {
+            listProducts: () => of(catalogoProdutos.map((product) => ({
+              id: product.id,
+              category_id: 1,
+              category: {
+                id: 1,
+                name: categoryNames[product.comodos[0] ?? product.categoria] ?? product.categoria,
+                description: null,
+                status: true
+              },
+              name: product.nome,
+              description: product.alt,
+              price: product.preco,
+              stock: 5,
+              image: product.imagem,
+              status: true
+            })))
+          }
+        }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Produtos);

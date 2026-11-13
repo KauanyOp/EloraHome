@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
+import { StoreApiService } from '../../core/store-api.service';
 import { Home } from './home';
 
 describe('Home', () => {
@@ -10,7 +12,25 @@ describe('Home', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Home],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        {
+          provide: StoreApiService,
+          useValue: {
+            listProducts: () => of([{
+              id: 1,
+              category_id: 1,
+              category: { id: 1, name: 'Quarto', description: null, status: true },
+              name: 'Jogo de cama em algodão',
+              description: 'Cama arrumada',
+              price: 279,
+              stock: 5,
+              image: '/jogo-de-cama.jpg',
+              status: true
+            }])
+          }
+        }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Home);

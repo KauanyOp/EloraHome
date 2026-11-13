@@ -1,5 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { StoreApiService } from '../../core/store-api.service';
+import type { ApiUser } from '../../core/api.models';
+import { mensagemErroApi } from '../../core/api-error';
 
 type StatusUsuario = 'Ativo' | 'Inativo';
 type PerfilUsuario = 'Cliente' | 'Administrador';
@@ -18,6 +21,7 @@ interface DadosUsuario {
   email: string;
   telefone: string;
   perfil: PerfilUsuario;
+  senha: string;
 }
 
 function normalizarBusca(texto: string): string {
@@ -31,13 +35,9 @@ function normalizarBusca(texto: string): string {
   templateUrl: './usuarios.html',
 })
 export class Usuarios {
-  readonly usuarios = signal<UsuarioAdmin[]>([
-    { id: 1, nome: 'Ana Souza', email: 'ana.souza@example.com', telefone: '(11) 98765-4321', perfil: 'Cliente', status: 'Ativo' },
-    { id: 2, nome: 'Marina Costa', email: 'marina.costa@example.com', telefone: '(21) 97654-3210', perfil: 'Cliente', status: 'Ativo' },
-    { id: 3, nome: 'Camila Oliveira', email: 'camila.oliveira@example.com', telefone: '(31) 96543-2109', perfil: 'Cliente', status: 'Inativo' },
-    { id: 4, nome: 'Lucas Ferreira', email: 'lucas.ferreira@example.com', telefone: '(41) 95432-1098', perfil: 'Cliente', status: 'Ativo' },
-    { id: 5, nome: 'Equipe Elora', email: 'equipe@example.com', telefone: '(11) 3000-0000', perfil: 'Administrador', status: 'Ativo' }
-  ]);
+  private readonly api = inject(StoreApiService);
+  readonly usuarios = signal<UsuarioAdmin[]>([]);
+  readonly erro = signal('');
   readonly busca = signal('');
   readonly filtroAtivo = signal<'Todos' | StatusUsuario>('Todos');
   readonly filtros: ('Todos' | StatusUsuario)[] = ['Todos', 'Ativo', 'Inativo'];
@@ -47,8 +47,16 @@ export class Usuarios {
     nome: '',
     email: '',
     telefone: '',
-    perfil: 'Cliente'
+    perfil: 'Cliente',
+    senha: ''
   };
+
+  constructor() {
+    this.api.listUsers().subscribe({
+      next: (users) => this.usuarios.set(users.map((user) => this.toAdminUser(user))),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível carregar os usuários.'))
+    });
+  }
 
   get usuariosFiltrados(): UsuarioAdmin[] {
     const busca = normalizarBusca(this.busca().trim());
@@ -73,7 +81,8 @@ export class Usuarios {
       nome: '',
       email: '',
       telefone: '',
-      perfil: 'Cliente'
+      perfil: 'Cliente',
+      senha: ''
     });
     this.editorAberto.set(true);
   }
@@ -84,7 +93,8 @@ export class Usuarios {
       nome: usuario.nome,
       email: usuario.email,
       telefone: usuario.telefone,
-      perfil: usuario.perfil
+      perfil: usuario.perfil,
+      senha: ''
     });
     this.editorAberto.set(true);
   }
@@ -95,34 +105,72 @@ export class Usuarios {
       nome: this.dados.nome.trim(),
       email: this.dados.email.trim(),
       telefone: this.dados.telefone.trim(),
-      perfil: this.dados.perfil
+      perfil: this.dados.perfil,
+      senha: this.dados.senha
     };
 
     if (atual) {
-      this.usuarios.update((usuarios) =>
-        usuarios.map((usuario) => usuario.id === atual.id ? { ...usuario, ...dados } : usuario)
-      );
+      this.api.updateUser(atual.id, {
+        name: dados.nome,
+        email: dados.email,
+        phone: dados.telefone,
+        is_admin: dados.perfil === 'Administrador'
+      }).subscribe({
+        next: (user) => {
+          this.replaceUser(user);
+          this.editorAberto.set(false);
+          this.erro.set('');
+        },
+        error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível salvar o usuário.'))
+      });
     } else {
-      const id = Math.max(0, ...this.usuarios().map((usuario) => usuario.id)) + 1;
-      this.usuarios.update((usuarios) => [...usuarios, { ...dados, id, status: 'Ativo' }]);
+      this.api.createUser({
+        name: dados.nome,
+        email: dados.email,
+        phone: dados.telefone,
+        password: dados.senha,
+        is_admin: dados.perfil === 'Administrador'
+      }).subscribe({
+        next: (user) => {
+          this.usuarios.update((users) => [...users, this.toAdminUser(user)]);
+          this.editorAberto.set(false);
+          this.erro.set('');
+        },
+        error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível cadastrar o usuário.'))
+      });
     }
-
-    this.editorAberto.set(false);
   }
 
   alternarStatus(usuario: UsuarioAdmin): void {
-    this.usuarios.update((usuarios) =>
-      usuarios.map((atual) => atual.id === usuario.id
-        ? { ...atual, status: atual.status === 'Ativo' ? 'Inativo' : 'Ativo' }
-        : atual)
-    );
+    this.api.updateUser(usuario.id, { is_active: usuario.status !== 'Ativo' }).subscribe({
+      next: (user) => this.replaceUser(user),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível alterar o status do usuário.'))
+    });
   }
 
   removerUsuario(id: number): void {
-    this.usuarios.update((usuarios) => usuarios.filter((usuario) => usuario.id !== id));
+    this.api.deleteUser(id).subscribe({
+      next: () => this.usuarios.update((users) => users.filter((user) => user.id !== id)),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível excluir o usuário.'))
+    });
   }
 
   fecharEditor(): void {
     this.editorAberto.set(false);
+  }
+
+  private replaceUser(user: ApiUser): void {
+    this.usuarios.update((users) => users.map((item) => item.id === user.id ? this.toAdminUser(user) : item));
+  }
+
+  private toAdminUser(user: ApiUser): UsuarioAdmin {
+    return {
+      id: user.id,
+      nome: user.name,
+      email: user.email,
+      telefone: user.phone ?? '',
+      perfil: user.is_admin ? 'Administrador' : 'Cliente',
+      status: user.is_active ? 'Ativo' : 'Inativo'
+    };
   }
 }

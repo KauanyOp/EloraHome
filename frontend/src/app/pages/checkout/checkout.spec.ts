@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { provideRouter, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
 import { Confirmacao } from '../../components/confirmacao/confirmacao';
+import { AuthService } from '../../core/auth.service';
+import { StoreApiService } from '../../core/store-api.service';
 import { PedidoService } from '../pedido/pedido.service';
 import { Checkout } from './checkout';
 
@@ -18,7 +22,55 @@ describe('Checkout', () => {
       providers: [provideRouter([
         { path: 'pedido', component: Confirmacao },
         { path: 'produtos', component: Confirmacao }
-      ])],
+      ]),
+      {
+        provide: AuthService,
+        useValue: {
+          token: signal('test-token'),
+          user: signal({ id: 1, name: 'Ana Silva', email: 'ana@example.com', phone: null, birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: true })
+        }
+      },
+      {
+        provide: StoreApiService,
+        useValue: {
+          createOrder: () => of({
+            id: 42,
+            user_id: 1,
+            status: 'pendente',
+            total: 558,
+            created_at: '2026-11-13T00:00:00.000Z',
+            shipping_name: 'Ana Silva',
+            shipping_email: 'ana@example.com',
+            shipping_phone: '11999999999',
+            shipping_cep: '01000-000',
+            shipping_street: 'Rua das Flores',
+            shipping_number: '10',
+            shipping_complement: null,
+            shipping_neighborhood: null,
+            shipping_city: 'São Paulo',
+            shipping_state: 'SP',
+            payment_method: 'pix',
+            items: [{
+              id: 1,
+              product_id: 1,
+              quantity: 2,
+              unit_price: 279,
+              subtotal: 558,
+              product: {
+                id: 1,
+                category_id: 1,
+                category: { id: 1, name: 'Quarto', description: null, status: true },
+                name: 'Jogo de cama em algodão',
+                description: 'Cama arrumada',
+                price: 279,
+                stock: 5,
+                image: '/jogo-de-cama.jpg',
+                status: true
+              }
+            }]
+          })
+        }
+      }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Checkout);
@@ -59,7 +111,7 @@ describe('Checkout', () => {
     expect(component.confirmacaoAberta()).toBe(true);
     expect(pedido.atual()?.total).toBe(558);
     expect(pedido.atual()?.itens).toHaveLength(1);
-    expect(carrinho.itens()).toHaveLength(1);
+    expect(carrinho.itens()).toHaveLength(0);
 
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeTruthy();

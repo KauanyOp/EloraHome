@@ -20,10 +20,9 @@
           <span>Categoria</span>
           <select name="categoria" [(ngModel)]="dados.categoria" required>
             <option value="" disabled>Selecione</option>
-            <option value="cama">Cama e banho</option>
-            <option value="cozinha">Cozinha</option>
-            <option value="decoracao">Decoração</option>
-            <option value="organizacao">Organização</option>
+            @for (categoria of categorias(); track categoria) {
+              <option [value]="categoria">{{ categoria }}</option>
+            }
           </select>
         </label>
         <label>

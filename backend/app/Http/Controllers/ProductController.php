@@ -11,9 +11,14 @@ class ProductController extends Controller
     // Lista todos os produtos
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->where('status', true)->get();
 
         return response()->json($products);
+    }
+
+    public function indexAdmin()
+    {
+        return response()->json(Product::with('category')->get());
     }
 
     // Cadastra um novo produto
@@ -40,6 +45,8 @@ class ProductController extends Controller
     // Consulta um produto específico
     public function show(Product $product)
     {
+        abort_unless($product->status, 404);
+
         return response()->json($product->load('category'));
     }
 

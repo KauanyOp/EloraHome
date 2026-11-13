@@ -1,7 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
-import { catalogoProdutos, type ProdutoCatalogo } from '../produtos/catalogo';
+import type { ProdutoCatalogo } from '../produtos/catalogo';
+import { StoreApiService } from '../../core/store-api.service';
+import { mapearProduto } from '../../core/product-mapper';
 
 @Component({
   selector: 'app-produto',
@@ -12,14 +14,20 @@ import { catalogoProdutos, type ProdutoCatalogo } from '../produtos/catalogo';
 export class Produto {
   private readonly route = inject(ActivatedRoute);
   private readonly carrinho = inject(CarrinhoService);
+  private readonly api = inject(StoreApiService);
   readonly quantidade = signal(1);
   readonly produto = signal<ProdutoCatalogo | null>(null);
+  readonly erro = signal('');
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
       const id = Number(params.get('id'));
-      this.produto.set(catalogoProdutos.find((item) => item.id === id) ?? null);
+      this.produto.set(null);
       this.quantidade.set(1);
+      this.api.getProduct(id).subscribe({
+        next: (produto) => this.produto.set(mapearProduto(produto)),
+        error: () => this.erro.set('Não foi possível carregar o produto. Tente novamente.')
+      });
     });
   }
 

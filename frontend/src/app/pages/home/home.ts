@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
-import { catalogoProdutos } from '../produtos/catalogo';
+import type { ProdutoCatalogo } from '../produtos/catalogo';
+import { StoreApiService } from '../../core/store-api.service';
+import { mapearProduto } from '../../core/product-mapper';
 
 @Component({
   imports: [RouterLink],
@@ -11,22 +13,26 @@ import { catalogoProdutos } from '../produtos/catalogo';
 })
 export class Home {
   private readonly carrinho = inject(CarrinhoService);
+  private readonly api = inject(StoreApiService);
+  readonly produtos = signal<ProdutoCatalogo[]>([]);
+  readonly erro = signal('');
 
-  readonly destaques = [
-    catalogoProdutos[0],
-    catalogoProdutos[2],
-    catalogoProdutos[3],
-    catalogoProdutos[9]
-  ];
+  constructor() {
+    this.api.listProducts().subscribe({
+      next: (produtos) => this.produtos.set(produtos.map(mapearProduto)),
+      error: () => this.erro.set('Não foi possível carregar os produtos em destaque.')
+    });
+  }
 
-  readonly novidades = [
-    catalogoProdutos[10],
-    catalogoProdutos[7],
-    catalogoProdutos[6],
-    catalogoProdutos[5]
-  ];
+  get destaques(): ProdutoCatalogo[] {
+    return this.produtos().slice(0, 4);
+  }
 
-  adicionarAoCarrinho(produto: (typeof catalogoProdutos)[number]): void {
+  get novidades(): ProdutoCatalogo[] {
+    return this.produtos().slice(4, 8);
+  }
+
+  adicionarAoCarrinho(produto: ProdutoCatalogo): void {
     this.carrinho.adicionar({
       id: produto.id,
       nome: produto.nome,

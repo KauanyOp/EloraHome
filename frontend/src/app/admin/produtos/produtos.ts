@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditarProduto, type ProdutoAdmin } from '../../components/editar-produto/editar-produto';
-import { catalogoProdutos } from '../../pages/produtos/catalogo';
+import { StoreApiService } from '../../core/store-api.service';
+import type { ApiCategory, ApiProduct } from '../../core/api.models';
+import { slugCategoria } from '../../core/product-mapper';
+import { mensagemErroApi } from '../../core/api-error';
 
 @Component({
   imports: [FormsModule, EditarProduto],
@@ -10,19 +13,28 @@ import { catalogoProdutos } from '../../pages/produtos/catalogo';
   templateUrl: './produtos.html',
 })
 export class Produtos {
-  readonly produtos = signal<ProdutoAdmin[]>(
-    catalogoProdutos.map((produto, indice) => ({
-      id: produto.id,
-      nome: produto.nome,
-      categoria: produto.categoria,
-      preco: produto.preco,
-      estoque: [18, 12, 8, 24, 6, 14][indice % 6],
-      status: 'Ativo'
-    }))
-  );
+  private readonly api = inject(StoreApiService);
+  readonly produtos = signal<ProdutoAdmin[]>([]);
+  readonly categorias = signal<ApiCategory[]>([]);
   readonly busca = signal('');
+  readonly erro = signal('');
   readonly editorAberto = signal(false);
   readonly produtoEditando = signal<ProdutoAdmin | null>(null);
+
+  constructor() {
+    this.api.listAdminProducts().subscribe({
+      next: (products) => this.produtos.set(products.map((product) => this.toAdminProduct(product))),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível carregar os produtos.'))
+    });
+    this.api.listCategories().subscribe({
+      next: (categories) => this.categorias.set(categories),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível carregar as categorias.'))
+    });
+  }
+
+  get nomesCategorias(): string[] {
+    return this.categorias().map((category) => category.name);
+  }
 
   get produtosFiltrados(): ProdutoAdmin[] {
     const busca = this.busca().trim().toLocaleLowerCase('pt-BR');
@@ -48,30 +60,81 @@ export class Produtos {
 
   salvarProduto(produto: ProdutoAdmin): void {
     const atual = this.produtoEditando();
+    const category = this.categorias().find((item) => slugCategoria(item.name) === slugCategoria(produto.categoria));
 
-    if (atual) {
-      this.produtos.update((produtos) =>
-        produtos.map((item) => item.id === atual.id ? { ...produto, id: atual.id } : item)
-      );
-    } else {
-      const id = Math.max(0, ...this.produtos().map((item) => item.id)) + 1;
-      this.produtos.update((produtos) => [...produtos, { ...produto, id }]);
+    if (!category) {
+      this.erro.set('Selecione uma categoria válida.');
+      return;
     }
 
-    this.editorAberto.set(false);
+    const payload = {
+      category_id: category.id,
+      name: produto.nome,
+      description: produto.descricao?.trim() || produto.nome,
+      price: produto.preco,
+      stock: produto.estoque,
+      status: produto.status === 'Ativo',
+      image: produto.imagem ?? null
+    };
+
+    if (atual) {
+      this.api.updateProduct(atual.id, payload).subscribe({
+        next: (saved) => {
+          this.replaceProduct(saved);
+          this.editorAberto.set(false);
+          this.erro.set('');
+        },
+        error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível salvar o produto.'))
+      });
+    } else {
+      this.api.createProduct(payload).subscribe({
+        next: (saved) => {
+          this.produtos.update((products) => [...products, this.toAdminProduct(saved)]);
+          this.editorAberto.set(false);
+          this.erro.set('');
+        },
+        error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível cadastrar o produto.'))
+      });
+    }
   }
 
   removerProduto(id: number): void {
-    this.produtos.update((produtos) => produtos.filter((produto) => produto.id !== id));
+    this.api.deleteProduct(id).subscribe({
+      next: () => this.produtos.update((products) => products.filter((product) => product.id !== id)),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível excluir o produto.'))
+    });
   }
 
   formatarCategoria(categoria: string): string {
     const categorias: Record<string, string> = {
       cozinha: 'Cozinha',
       decoracao: 'Decoração',
-      organizacao: 'Organização'
+      organizacao: 'Organização',
+      quarto: 'Quarto',
+      sala: 'Sala',
+      banheiro: 'Banheiro'
     };
-    return categorias[categoria] ?? categoria;
+    const slug = slugCategoria(categoria);
+    return categorias[slug] ?? categoria;
+  }
+
+  private replaceProduct(product: ApiProduct): void {
+    this.produtos.update((products) =>
+      products.map((item) => item.id === product.id ? this.toAdminProduct(product) : item)
+    );
+  }
+
+  private toAdminProduct(product: ApiProduct): ProdutoAdmin {
+    return {
+      id: product.id,
+      nome: product.name,
+      categoria: product.category.name,
+      preco: Number(product.price),
+      estoque: product.stock,
+      status: product.status ? 'Ativo' : 'Inativo',
+      descricao: product.description,
+      imagem: product.image
+    };
   }
 
   formatarPreco(valor: number): string {

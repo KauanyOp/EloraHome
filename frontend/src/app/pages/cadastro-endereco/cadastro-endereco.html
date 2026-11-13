@@ -21,6 +21,9 @@
       <input id="endereco-cidade" name="cidade" type="text" placeholder="Sua cidade" autocomplete="address-level2" required>
 
       <button type="submit">Criar conta</button>
+      @if (erro()) {
+        <p role="alert">{{ erro() }}</p>
+      }
     </form>
     <p class="cadastro-login">Já tem conta? <a routerLink="/login">Fazer login</a></p>
   </section>

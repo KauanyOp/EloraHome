@@ -21,9 +21,13 @@
     </nav>
 
     <a class="voltar-loja" routerLink="/">← Voltar à loja</a>
+    <button class="voltar-loja" type="button" (click)="sair()">Sair</button>
   </aside>
 
   <main class="admin-content">
+    @if (erro()) {
+      <p role="alert">{{ erro() }}</p>
+    }
     <router-outlet></router-outlet>
   </main>
 </div>

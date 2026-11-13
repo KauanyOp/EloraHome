@@ -67,6 +67,9 @@
     </div>
   } @else {
     <section class="pedido-vazio">
+      @if (erro()) {
+        <p role="alert">{{ erro() }}</p>
+      }
       <h1>Nenhum pedido para acompanhar</h1>
       <p>Assim que você concluir uma compra, os detalhes aparecerão aqui.</p>
       <a routerLink="/produtos">Explorar produtos</a>

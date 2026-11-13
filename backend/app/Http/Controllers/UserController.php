@@ -23,6 +23,8 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
             'birth_date' => ['nullable', 'date', 'before:today'],
+            'is_admin' => ['sometimes', 'boolean'],
+            'is_active' => ['sometimes', 'boolean'],
             'cep' => ['nullable', 'string', 'max:9'],
             'street' => ['nullable', 'string', 'max:255'],
             'number' => ['nullable', 'string', 'max:20'],
@@ -63,6 +65,7 @@ class UserController extends Controller
             'city' => ['sometimes', 'nullable', 'string', 'max:255'],
             'state' => ['sometimes', 'nullable', 'string', 'size:2'],
             'is_admin' => ['sometimes', 'required', 'boolean'],
+            'is_active' => ['sometimes', 'required', 'boolean'],
         ]);
 
         $user->update($validated);

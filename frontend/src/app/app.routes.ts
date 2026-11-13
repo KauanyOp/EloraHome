@@ -19,6 +19,7 @@ import { Dashboard } from './admin/dashboard/dashboard';
 import { Produtos as AdminProdutos } from './admin/produtos/produtos';
 import { Pedidos } from './admin/pedidos/pedidos';
 import { Usuarios } from './admin/usuarios/usuarios';
+import { adminGuard } from './core/admin.guard';
 
 export const routes: Routes = [
 
@@ -48,6 +49,7 @@ export const routes: Routes = [
 
   {
     path: 'admin',
+    canActivate: [adminGuard],
     component: Admin,
     children: [
       { path: 'dashboard', component: Dashboard },

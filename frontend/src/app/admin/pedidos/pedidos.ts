@@ -1,8 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { StoreApiService } from '../../core/store-api.service';
+import type { ApiOrder } from '../../core/api.models';
+import { mensagemErroApi } from '../../core/api-error';
 
 type StatusPedido = 'Aguardando' | 'Em trânsito' | 'Entregue' | 'Cancelado';
 
 interface PedidoAdmin {
+  id: number;
   codigo: string;
   cliente: string;
   email: string;
@@ -19,20 +23,20 @@ interface PedidoAdmin {
   templateUrl: './pedidos.html',
 })
 export class Pedidos {
-  readonly pedidos = signal<PedidoAdmin[]>([
-    { codigo: '#EL-2401', cliente: 'Ana Silva', email: 'ana@email.com', data: '12/11/2026', total: 576, itens: 3, status: 'Aguardando' },
-    { codigo: '#EL-2400', cliente: 'Bruno Costa', email: 'bruno@email.com', data: '11/11/2026', total: 368, itens: 2, status: 'Em trânsito' },
-    { codigo: '#EL-2399', cliente: 'Camila Souza', email: 'camila@email.com', data: '10/11/2026', total: 279, itens: 1, status: 'Entregue' },
-    { codigo: '#EL-2398', cliente: 'Diego Lima', email: 'diego@email.com', data: '09/11/2026', total: 458, itens: 4, status: 'Aguardando' },
-    { codigo: '#EL-2397', cliente: 'Elisa Martins', email: 'elisa@email.com', data: '08/11/2026', total: 189, itens: 1, status: 'Entregue' },
-    { codigo: '#EL-2396', cliente: 'Felipe Rocha', email: 'felipe@email.com', data: '07/11/2026', total: 527, itens: 3, status: 'Em trânsito' },
-    { codigo: '#EL-2395', cliente: 'Giovana Alves', email: 'giovana@email.com', data: '06/11/2026', total: 119, itens: 1, status: 'Cancelado' },
-    { codigo: '#EL-2394', cliente: 'Henrique Melo', email: 'henrique@email.com', data: '05/11/2026', total: 348, itens: 2, status: 'Entregue' }
-  ]);
+  private readonly api = inject(StoreApiService);
+  readonly pedidos = signal<PedidoAdmin[]>([]);
+  readonly erro = signal('');
   readonly filtros = ['Todos', 'Aguardando', 'Em trânsito', 'Entregue', 'Cancelado'] as const;
   readonly filtroAtivo = signal<string>('Todos');
   readonly busca = signal('');
   readonly pedidoSelecionado = signal<PedidoAdmin | null>(null);
+
+  constructor() {
+    this.api.listOrders().subscribe({
+      next: (orders) => this.pedidos.set(orders.map((order) => this.mapOrder(order))),
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível carregar os pedidos.'))
+    });
+  }
 
   get pedidosFiltrados(): PedidoAdmin[] {
     const busca = this.busca().trim().toLocaleLowerCase('pt-BR');
@@ -51,7 +55,7 @@ export class Pedidos {
     }
   }
 
-  alterarStatus(id: string, event: Event): void {
+  alterarStatus(id: number, event: Event): void {
     const elemento = event.target;
 
     if (!(elemento instanceof HTMLSelectElement)) {
@@ -66,9 +70,24 @@ export class Pedidos {
       return;
     }
 
-    this.pedidos.update((pedidos) =>
-      pedidos.map((pedido) => pedido.codigo === id ? { ...pedido, status } : pedido)
-    );
+    const apiStatusByUi: Record<StatusPedido, ApiOrder['status']> = {
+      Aguardando: 'pendente',
+      'Em trânsito': 'enviado',
+      Entregue: 'entregue',
+      Cancelado: 'cancelado'
+    };
+    const apiStatus = apiStatusByUi[status];
+    this.api.updateOrderStatus(id, apiStatus).subscribe({
+      next: (order) => {
+        const atualizado = this.mapOrder(order);
+        this.pedidos.update((orders) => orders.map((pedido) => pedido.id === id ? atualizado : pedido));
+        if (this.pedidoSelecionado()?.id === id) {
+          this.pedidoSelecionado.set(atualizado);
+        }
+        this.erro.set('');
+      },
+      error: (error: unknown) => this.erro.set(mensagemErroApi(error, 'Não foi possível atualizar o pedido.'))
+    });
   }
 
   verPedido(pedido: PedidoAdmin): void {
@@ -84,5 +103,26 @@ export class Pedidos {
       style: 'currency',
       currency: 'BRL'
     }).format(valor);
+  }
+
+  private mapOrder(order: ApiOrder): PedidoAdmin {
+    const statusByApi: Record<ApiOrder['status'], StatusPedido> = {
+      pendente: 'Aguardando',
+      confirmado: 'Aguardando',
+      enviado: 'Em trânsito',
+      entregue: 'Entregue',
+      cancelado: 'Cancelado'
+    };
+    const status = statusByApi[order.status];
+    return {
+      id: order.id,
+      codigo: `#EL-${order.id}`,
+      cliente: order.shipping_name ?? order.user?.name ?? 'Cliente',
+      email: order.shipping_email ?? order.user?.email ?? '',
+      data: new Intl.DateTimeFormat('pt-BR').format(new Date(order.created_at)),
+      total: Number(order.total),
+      itens: order.items_count ?? 0,
+      status
+    };
   }
 }

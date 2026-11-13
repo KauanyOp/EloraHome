@@ -7,7 +7,10 @@
 </header>
 
 <section class="metricas-dashboard" aria-label="Indicadores da loja">
-  @for (metrica of metricas; track metrica.titulo) {
+  @if (erro()) {
+    <p role="alert">{{ erro() }}</p>
+  }
+  @for (metrica of metricas(); track metrica.titulo) {
     <article class="metrica-card">
       <span class="metrica-icone" aria-hidden="true">{{ metrica.icone }}</span>
       <div>
@@ -22,17 +25,17 @@
 <section class="grafico-vendas">
   <div class="grafico-cabecalho">
     <div>
-      <h2>Vendas dos últimos 30 dias</h2>
+      <h2>Vendas nos últimos 7 dias</h2>
       <p>Desempenho da loja no período</p>
     </div>
-    <span class="etiqueta-periodo">Últimos 30 dias</span>
+    <span class="etiqueta-periodo">Últimos 7 dias</span>
   </div>
   <div class="grafico-area" role="img" aria-label="Gráfico de vendas dos últimos 30 dias">
     <div class="linhas-grafico" aria-hidden="true">
-      <span>R$ 3.000</span><span>R$ 2.000</span><span>R$ 1.000</span><span>R$ 0</span>
+      <span>100%</span><span>75%</span><span>50%</span><span>0%</span>
     </div>
     <div class="barras-grafico">
-      @for (barra of barras; track barra.periodo) {
+      @for (barra of barras(); track barra.periodo) {
         <div class="barra-coluna">
           <div class="barra" [style.height.%]="barra.valor"></div>
           <span>{{ barra.periodo }}</span>

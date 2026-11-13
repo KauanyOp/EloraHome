@@ -7,6 +7,9 @@
 </header>
 
 <section class="pedidos-admin-card">
+  @if (erro()) {
+    <p role="alert">{{ erro() }}</p>
+  }
   <div class="pedidos-toolbar">
     <nav class="filtros-pedidos" aria-label="Filtrar pedidos">
       @for (filtro of filtros; track filtro) {
@@ -47,7 +50,7 @@
             </td>
             <td class="acoes-pedido">
               <button type="button" [attr.aria-label]="'Ver pedido ' + pedido.codigo" (click)="verPedido(pedido)">⌕</button>
-              <select [value]="pedido.status" [attr.aria-label]="'Alterar status do pedido ' + pedido.codigo" (change)="alterarStatus(pedido.codigo, $event)">
+              <select [value]="pedido.status" [attr.aria-label]="'Alterar status do pedido ' + pedido.codigo" (change)="alterarStatus(pedido.id, $event)">
                 <option value="Aguardando">Aguardando</option>
                 <option value="Em trânsito">Em trânsito</option>
                 <option value="Entregue">Entregue</option>

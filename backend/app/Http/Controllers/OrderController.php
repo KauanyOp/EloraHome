@@ -22,23 +22,44 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
+    public function mine(Request $request)
+    {
+        return response()->json(
+            Order::with(['user', 'items.product'])
+                ->where('user_id', $request->user()->id)
+                ->orderByDesc('id')
+                ->get()
+        );
+    }
+
     // Cadastra um pedido com seus produtos.
     public function store(Request $request)
     {
         // Valida os dados recebidos.
         $validated = $request->validate([
-            'user_id' => ['required', 'integer', 'exists:users,id'],
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'integer', 'distinct', 'exists:products,id'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
+            'shipping_name' => ['required', 'string', 'max:255'],
+            'shipping_email' => ['required', 'email', 'max:255'],
+            'shipping_phone' => ['required', 'string', 'max:20'],
+            'shipping_cep' => ['required', 'string', 'max:9'],
+            'shipping_street' => ['required', 'string', 'max:255'],
+            'shipping_number' => ['nullable', 'string', 'max:20'],
+            'shipping_complement' => ['nullable', 'string', 'max:255'],
+            'shipping_neighborhood' => ['nullable', 'string', 'max:255'],
+            'shipping_city' => ['required', 'string', 'max:255'],
+            'shipping_state' => ['required', 'string', 'size:2'],
+            'payment_method' => ['required', 'string', Rule::in(['cartao', 'pix'])],
         ]);
 
         // Garante que as operações do pedido sejam realizadas em conjunto.
-        $order = DB::transaction(function () use ($validated) {
+        $order = DB::transaction(function () use ($validated, $request) {
             $order = Order::create([
-                'user_id' => $validated['user_id'],
+                'user_id' => $request->user()->id,
                 'status' => 'pendente',
                 'total' => 0,
+                ...collect($validated)->except('items')->all(),
             ]);
 
             $total = 0;
@@ -92,6 +113,11 @@ class OrderController extends Controller
     // Exibe os detalhes de um pedido específico.
     public function show(Order $order)
     {
+        abort_unless(
+            $order->user_id === request()->user()->id || request()->user()->is_admin,
+            403
+        );
+
         return response()->json($order->load(['user', 'items.product']));
     }
 
@@ -108,7 +134,7 @@ class OrderController extends Controller
 
         $order->update($validated);
 
-        return response()->json($order->load(['user', 'items.product']));
+        return response()->json($order->load(['user', 'items.product'])->loadCount('items'));
     }
 
     // Impede a exclusão para preservar o histórico de pedidos.

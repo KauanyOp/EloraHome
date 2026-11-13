@@ -7,6 +7,9 @@
 </header>
 
 <section class="usuarios-admin-card">
+  @if (erro()) {
+    <p role="alert">{{ erro() }}</p>
+  }
   <div class="usuarios-toolbar">
     <nav class="filtros-usuarios" aria-label="Filtrar usuários">
       @for (filtro of filtros; track filtro) {
@@ -102,6 +105,12 @@
           <span>Telefone</span>
           <input type="tel" name="telefone" autocomplete="tel" [(ngModel)]="dados.telefone" required>
         </label>
+        @if (!usuarioEditando()) {
+          <label class="campo-usuario">
+            <span>Senha inicial</span>
+            <input type="password" name="senha" autocomplete="new-password" [(ngModel)]="dados.senha" minlength="8" required>
+          </label>
+        }
         <label class="campo-usuario">
           <span>Perfil</span>
           <select name="perfil" [(ngModel)]="dados.perfil">

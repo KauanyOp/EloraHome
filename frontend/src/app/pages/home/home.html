@@ -60,6 +60,9 @@
 </section>
 
 <section class="vitrine-home">
+  @if (erro()) {
+    <p role="alert">{{ erro() }}</p>
+  }
   <header class="vitrine-cabecalho">
     <div>
       <h2>Mais vendidos</h2>

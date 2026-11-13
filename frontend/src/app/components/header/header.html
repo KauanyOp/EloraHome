@@ -59,8 +59,14 @@
         <span class="cart-count">{{ carrinho.quantidade() }}</span>
       }
     </button>
-    <a class="icon-button" routerLink="/login" aria-label="Entrar" title="Entrar">
-      <img src="/icons/user.svg" alt="">
-    </a>
+    @if (auth.user()) {
+      <a class="icon-button" routerLink="/pedido" aria-label="Minha conta" title="Minha conta">
+        <img src="/icons/user.svg" alt="">
+      </a>
+    } @else {
+      <a class="icon-button" routerLink="/login" aria-label="Entrar" title="Entrar">
+        <img src="/icons/user.svg" alt="">
+      </a>
+    }
   </div>
 </header>

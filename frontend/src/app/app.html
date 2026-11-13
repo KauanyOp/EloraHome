@@ -1,2 +1,5 @@
+@if (auth.sessionError()) {
+  <p role="alert">{{ auth.sessionError() }}</p>
+}
 <router-outlet></router-outlet>
 

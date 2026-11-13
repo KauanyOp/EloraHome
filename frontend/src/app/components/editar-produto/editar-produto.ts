@@ -8,6 +8,8 @@ export interface ProdutoAdmin {
   preco: number;
   estoque: number;
   status: 'Ativo' | 'Inativo';
+  descricao?: string;
+  imagem?: string | null;
 }
 
 @Component({
@@ -18,6 +20,7 @@ export interface ProdutoAdmin {
 })
 export class EditarProduto implements OnChanges {
   readonly produto = input<ProdutoAdmin | null>(null);
+  readonly categorias = input<string[]>([]);
   readonly salvo = output<ProdutoAdmin>();
   readonly cancelar = output<void>();
 

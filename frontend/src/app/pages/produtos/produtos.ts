@@ -1,7 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
-import { catalogoProdutos, type ProdutoCatalogo } from './catalogo';
+import type { ProdutoCatalogo } from './catalogo';
+import { StoreApiService } from '../../core/store-api.service';
+import { mapearProduto } from '../../core/product-mapper';
 
 interface FiltroCatalogo {
   label: string;
@@ -23,8 +25,11 @@ export class Produtos {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly carrinho = inject(CarrinhoService);
+  private readonly api = inject(StoreApiService);
   readonly filtroAtivo = signal('todos');
   readonly busca = signal('');
+  readonly produtos = signal<ProdutoCatalogo[]>([]);
+  readonly erro = signal('');
 
   readonly filtros: FiltroCatalogo[] = [
     { label: 'Todos', valor: 'todos', tipo: 'todos' },
@@ -36,9 +41,11 @@ export class Produtos {
     { label: 'Banheiro', valor: 'banheiro', tipo: 'comodo' }
   ];
 
-  readonly produtos = catalogoProdutos;
-
   constructor() {
+    this.api.listProducts().subscribe({
+      next: (produtos) => this.produtos.set(produtos.map(mapearProduto)),
+      error: () => this.erro.set('Não foi possível carregar os produtos. Tente novamente.')
+    });
     this.route.queryParamMap.subscribe((params) => {
       const filtro = params.get('comodo') ?? params.get('categoria') ?? 'todos';
       this.busca.set(params.get('q')?.trim() ?? '');
@@ -50,7 +57,7 @@ export class Produtos {
     const filtro = this.filtroAtivo();
     const termo = normalizarBusca(this.busca());
 
-    return this.produtos.filter((produto) => {
+    return this.produtos().filter((produto) => {
       const combinaFiltro = filtro === 'todos' ||
         produto.categoria === filtro ||
         produto.comodos.includes(filtro);
