@@ -12,6 +12,13 @@
         </button>
       </header>
 
+      @if (carrinho.sincronizando()) {
+        <p class="estado-carrinho" aria-live="polite">Sincronizando carrinho...</p>
+      }
+      @if (carrinho.erro()) {
+        <p class="erro-carrinho" role="alert">{{ carrinho.erro() }}</p>
+      }
+
       @if (carrinho.itens().length) {
         <div class="carrinho-lista">
           @for (item of carrinho.itens(); track item.id) {
@@ -41,6 +48,10 @@
           <a class="finalizar-compra" routerLink="/checkout" (click)="fechar()">Finalizar compra</a>
           <button class="continuar-comprando" type="button" (click)="fechar()">Continuar comprando</button>
         </footer>
+      } @else if (carrinho.sincronizando()) {
+        <div class="carrinho-vazio">
+          <p>Carregando carrinho...</p>
+        </div>
       } @else {
         <div class="carrinho-vazio">
           <p>Seu carrinho está vazio.</p>

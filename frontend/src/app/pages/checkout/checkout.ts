@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
 import { Confirmacao } from '../../components/confirmacao/confirmacao';
 import { type DadosEntrega, type FormaPagamento, PedidoService } from '../pedido/pedido.service';
@@ -54,21 +55,48 @@ export class Checkout {
     }
   }
 
-  confirmarCompra(): void {
-    const itens = this.carrinho.itens();
-
-    if (!itens.length) {
-      void this.router.navigateByUrl('/produtos');
-      return;
-    }
-
+  async confirmarCompra(): Promise<void> {
     if (!this.auth.token()) {
-      void this.router.navigateByUrl('/login?redirect=/checkout');
+      const destino = this.carrinho.itens().length
+        ? '/login?redirect=/checkout'
+        : '/produtos';
+      void this.router.navigateByUrl(destino);
       return;
     }
 
     this.erro.set('');
     this.enviando.set(true);
+
+    try {
+      if (!this.auth.user()) {
+        await firstValueFrom(this.auth.currentUser());
+      }
+
+      if (!this.auth.token()) {
+        void this.router.navigateByUrl('/login?redirect=/checkout');
+        this.enviando.set(false);
+        return;
+      }
+
+      await this.carrinho.sincronizar();
+    } catch (error: unknown) {
+      this.erro.set(mensagemErroApi(error, 'Não foi possível sincronizar o carrinho.'));
+      this.enviando.set(false);
+      return;
+    }
+
+    if (this.carrinho.erro()) {
+      this.enviando.set(false);
+      return;
+    }
+
+    const itens = this.carrinho.itens();
+    if (!itens.length) {
+      void this.router.navigateByUrl('/produtos');
+      this.enviando.set(false);
+      return;
+    }
+
     this.api.createOrder({
       items: itens.map((item) => ({ product_id: item.id, quantity: item.quantidade })),
       shipping_name: this.dados.nome,

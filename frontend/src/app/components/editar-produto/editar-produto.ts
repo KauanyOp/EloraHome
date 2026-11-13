@@ -5,11 +5,17 @@ export interface ProdutoAdmin {
   id: number;
   nome: string;
   categoria: string;
+  categoriaId: number | null;
   preco: number;
   estoque: number;
   status: 'Ativo' | 'Inativo';
   descricao?: string;
   imagem?: string | null;
+}
+
+interface CategoriaOpcao {
+  id: number;
+  name: string;
 }
 
 @Component({
@@ -20,7 +26,7 @@ export interface ProdutoAdmin {
 })
 export class EditarProduto implements OnChanges {
   readonly produto = input<ProdutoAdmin | null>(null);
-  readonly categorias = input<string[]>([]);
+  readonly categorias = input<CategoriaOpcao[]>([]);
   readonly salvo = output<ProdutoAdmin>();
   readonly cancelar = output<void>();
 
@@ -32,10 +38,12 @@ export class EditarProduto implements OnChanges {
   }
 
   salvar(): void {
+    const categoria = this.categorias().find((item) => item.id === this.dados.categoriaId);
+
     this.salvo.emit({
       ...this.dados,
       nome: this.dados.nome.trim(),
-      categoria: this.dados.categoria.trim()
+      categoria: categoria?.name ?? ''
     });
   }
 
@@ -44,6 +52,7 @@ export class EditarProduto implements OnChanges {
       id: 0,
       nome: '',
       categoria: '',
+      categoriaId: null,
       preco: 0,
       estoque: 0,
       status: 'Ativo'

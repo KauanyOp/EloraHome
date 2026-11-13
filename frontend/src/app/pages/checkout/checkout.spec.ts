@@ -27,12 +27,35 @@ describe('Checkout', () => {
         provide: AuthService,
         useValue: {
           token: signal('test-token'),
-          user: signal({ id: 1, name: 'Ana Silva', email: 'ana@example.com', phone: null, birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: true })
+          user: signal({ id: 1, name: 'Ana Silva', email: 'ana@example.com', phone: null, birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: true }),
+          currentUser: () => of({ id: 1, name: 'Ana Silva', email: 'ana@example.com', phone: null, birth_date: null, cep: null, street: null, number: null, complement: null, neighborhood: null, city: null, state: null, is_admin: false, is_active: true })
         }
       },
       {
         provide: StoreApiService,
         useValue: {
+          getCart: () => of({ id: 1, user_id: 1, items: [], quantity: 0, total: '0.00' }),
+          addCartItem: ({ product_id, quantity }: { product_id: number; quantity: number }) => of({
+            id: 1,
+            user_id: 1,
+            items: [{
+              id: 1,
+              product_id,
+              quantity,
+              unit_price: '279.00',
+              subtotal: `${(279 * quantity).toFixed(2)}`,
+              product: {
+                id: product_id,
+                name: 'Jogo de cama em algodão',
+                image: '/jogo-de-cama.jpg'
+              }
+            }],
+            quantity,
+            total: `${(279 * quantity).toFixed(2)}`
+          }),
+          setCartItemQuantity: () => of({ id: 1, user_id: 1, items: [], quantity: 0, total: '0.00' }),
+          removeCartItem: () => of({ id: 1, user_id: 1, items: [], quantity: 0, total: '0.00' }),
+          clearCart: () => of({ id: 1, user_id: 1, items: [], quantity: 0, total: '0.00' }),
           createOrder: () => of({
             id: 42,
             user_id: 1,

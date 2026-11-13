@@ -32,10 +32,6 @@ export class Produtos {
     });
   }
 
-  get nomesCategorias(): string[] {
-    return this.categorias().map((category) => category.name);
-  }
-
   get produtosFiltrados(): ProdutoAdmin[] {
     const busca = this.busca().trim().toLocaleLowerCase('pt-BR');
 
@@ -60,7 +56,7 @@ export class Produtos {
 
   salvarProduto(produto: ProdutoAdmin): void {
     const atual = this.produtoEditando();
-    const category = this.categorias().find((item) => slugCategoria(item.name) === slugCategoria(produto.categoria));
+    const category = this.categorias().find((item) => item.id === produto.categoriaId);
 
     if (!category) {
       this.erro.set('Selecione uma categoria válida.');
@@ -129,6 +125,7 @@ export class Produtos {
       id: product.id,
       nome: product.name,
       categoria: product.category.name,
+      categoriaId: product.category_id,
       preco: Number(product.price),
       estoque: product.stock,
       status: product.status ? 'Ativo' : 'Inativo',

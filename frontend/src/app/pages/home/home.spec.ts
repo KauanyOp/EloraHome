@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { CarrinhoService } from '../../components/carrinho/carrinho.service';
+import { AuthService } from '../../core/auth.service';
 import { StoreApiService } from '../../core/store-api.service';
 import { Home } from './home';
 
@@ -14,6 +16,10 @@ describe('Home', () => {
       imports: [Home],
       providers: [
         provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: { user: signal(null), token: signal(null) }
+        },
         {
           provide: StoreApiService,
           useValue: {

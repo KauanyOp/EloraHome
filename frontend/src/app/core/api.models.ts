@@ -43,6 +43,23 @@ export interface ApiOrderItem {
   product?: ApiProduct;
 }
 
+export interface ApiCartItem {
+  id: number;
+  product_id: number;
+  quantity: number;
+  unit_price: string | number;
+  subtotal: string | number;
+  product?: Pick<ApiProduct, 'id' | 'name' | 'image'>;
+}
+
+export interface ApiCart {
+  id: number;
+  user_id: number;
+  items: ApiCartItem[];
+  quantity: number;
+  total: string | number;
+}
+
 export interface ApiOrder {
   id: number;
   user_id: number;

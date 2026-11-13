@@ -44,6 +44,20 @@
 	font-size: 21px;
 }
 
+.estado-carrinho,
+.erro-carrinho {
+	margin: 12px 0 0;
+	font-size: 13px;
+}
+
+.estado-carrinho {
+	color: #6C8066;
+}
+
+.erro-carrinho {
+	color: #A33D3D;
+}
+
 .fechar-carrinho {
 	display: grid;
 	width: 36px;

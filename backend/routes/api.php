@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ApiAuthController;
+use App\Http\Controllers\CartController;
 
 Route::post('auth/register', [ApiAuthController::class, 'register'])->middleware('throttle:6,1');
 Route::post('auth/login', [ApiAuthController::class, 'login'])->middleware('throttle:6,1');
@@ -19,6 +20,11 @@ Route::middleware(['auth:sanctum', 'active', 'admin'])->get('admin/products', [P
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('auth/me', [ApiAuthController::class, 'me']);
     Route::post('auth/logout', [ApiAuthController::class, 'logout']);
+    Route::get('cart', [CartController::class, 'show']);
+    Route::post('cart/items', [CartController::class, 'addItem']);
+    Route::patch('cart/items/{product}', [CartController::class, 'updateItem']);
+    Route::delete('cart/items/{product}', [CartController::class, 'removeItem']);
+    Route::delete('cart', [CartController::class, 'clear']);
     Route::get('orders/mine', [OrderController::class, 'mine']);
     Route::post('orders', [OrderController::class, 'store']);
     Route::get('orders/{order}', [OrderController::class, 'show']);

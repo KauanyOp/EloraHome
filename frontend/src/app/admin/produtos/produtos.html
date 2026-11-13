@@ -56,7 +56,7 @@
 @if (editorAberto()) {
   <app-editar-produto
     [produto]="produtoEditando()"
-    [categorias]="nomesCategorias"
+    [categorias]="categorias()"
     (salvo)="salvarProduto($event)"
     (cancelar)="editorAberto.set(false)"
   ></app-editar-produto>

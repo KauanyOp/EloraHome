@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import type { ApiCategory, ApiOrder, ApiProduct, ApiUser } from './api.models';
+import type { ApiCart, ApiCategory, ApiOrder, ApiProduct, ApiUser } from './api.models';
 
 @Injectable({ providedIn: 'root' })
 export class StoreApiService {
@@ -65,6 +65,26 @@ export class StoreApiService {
 
   listMyOrders(): Observable<ApiOrder[]> {
     return this.http.get<ApiOrder[]>(`${this.baseUrl}/orders/mine`);
+  }
+
+  getCart(): Observable<ApiCart> {
+    return this.http.get<ApiCart>(`${this.baseUrl}/cart`);
+  }
+
+  addCartItem(item: { product_id: number; quantity: number }): Observable<ApiCart> {
+    return this.http.post<ApiCart>(`${this.baseUrl}/cart/items`, item);
+  }
+
+  setCartItemQuantity(productId: number, quantity: number): Observable<ApiCart> {
+    return this.http.patch<ApiCart>(`${this.baseUrl}/cart/items/${productId}`, { quantity });
+  }
+
+  removeCartItem(productId: number): Observable<ApiCart> {
+    return this.http.delete<ApiCart>(`${this.baseUrl}/cart/items/${productId}`);
+  }
+
+  clearCart(): Observable<ApiCart> {
+    return this.http.delete<ApiCart>(`${this.baseUrl}/cart`);
   }
 
   createOrder(order: {
